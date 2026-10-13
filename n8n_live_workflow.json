@@ -1,0 +1,1696 @@
+{
+  "name": "Revenue Lifecycle Orchestration Engine (RLOE)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "v1/revenue-lifecycle-orchestrator",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "id": "02cfed01-60e9-47bc-b8c3-49436000cca0",
+      "name": "Webhook Inbound Gate",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": {
+        "0": 7152,
+        "1": 1408
+      },
+      "webhookId": "9565a145-7176-41ac-9ed0-2f1edd8a7157",
+      "credentials": {
+        "httpHeaderAuth": {}
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "273bfc4e-b6ae-49b8-bb43-fc09346ac1fc",
+      "name": "PLG Usage Poller (every 15 min)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": {
+        "0": 7152,
+        "1": 1664
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "product_usage_log",
+        "filterType": "string",
+        "filterString": "processed=eq.false"
+      },
+      "id": "7197c101-adfd-4e41-9e83-cbed26327319",
+      "name": "Get Unprocessed Usage Logs",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 7440,
+        "1": 1664
+      },
+      "alwaysOutputData": false,
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "product_usage_log",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "processed",
+              "fieldValue": "true"
+            }
+          ]
+        }
+      },
+      "id": "01f18970-7c37-4e93-9171-28ea7fe5bfc9",
+      "name": "Mark Usage Rows Processed",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 7744,
+        "1": 1664
+      },
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst out=[];\nfor(const it of $input.all()){\n const r=it.json;\n if(!r||!r.company_domain) continue;\n const now=Number(r.active_users_7d||0), prev=Number(r.active_users_prev_7d||0);\n const wauDrop=prev>0?Math.round(((prev-now)/prev)*100):0;\n const lastLogin=r.last_login_at?new Date(r.last_login_at).getTime():null;\n const daysIdle=lastLogin?Math.floor((Date.now()-lastLogin)/86400000):null;\n const seats=Number(r.seats_purchased||0);\n out.push({json:{\n  visitor_anonymous_id:'usage:'+(r.account_id||r.id),\n  company_domain:r.company_domain,\n  source:'plg_usage',\n  signals:{wau_drop_pct:wauDrop,days_since_last_login:daysIdle,seat_utilization_pct:seats>0?Math.round((now/seats)*100):null,key_feature_events_7d:Number(r.key_feature_events_7d||0)}\n }});\n}\nreturn out;\n"
+      },
+      "id": "bdd8388e-1ee2-4ea7-9c67-98b1bd8010d5",
+      "name": "Map Usage Log To Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 8048,
+        "1": 1664
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst BLOCKED=new Set(['gmail.com','yahoo.com','outlook.com','hotmail.com','icloud.com','proton.me','protonmail.com','aol.com','live.com','msn.com','gmx.com','yandex.com','mail.com','example.com']);\nconst seen=new Set(); const out=[];\nfor(const it of $input.all()){\n const b=(it.json&&it.json.body!==undefined&&typeof it.json.body==='object')?it.json.body:it.json;\n const vid=String(b.visitor_anonymous_id??'').trim();\n const raw=String(b.company_domain??'').trim();\n if(!vid||!raw) continue; // drop instantly\n let d=raw.toLowerCase().replace(/^[a-z][a-z0-9+.-]*:\\/\\//,'').replace(/^[^@\\/]*@/,'');\n d=d.split(/[\\/?#]/)[0].split(':')[0].replace(/^www\\./,'').replace(/\\.$/,'');\n if(!/^[a-z0-9-]+(\\.[a-z0-9-]+)+$/.test(d)) continue;\n if(BLOCKED.has(d)||seen.has(d)) continue;\n seen.add(d);\n out.push({json:{\n  visitor_anonymous_id:vid, company_domain:d,\n  source:String(b.source||'inbound_web'),\n  page_url:b.page_url||null, utm_source:b.utm_source||null, utm_campaign:b.utm_campaign||null,\n  signals:b.signals&&typeof b.signals==='object'?b.signals:{},\n  received_at:new Date().toISOString(),\n  execution_id:String($execution.id), workflow_id:String($workflow.id), t_start:Date.now()\n }});\n}\nreturn out;\n"
+      },
+      "id": "82279fd9-1a76-4c7d-8ba9-1c2a17127434",
+      "name": "Payload Verification Parser",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 8352,
+        "1": 1536
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads=$input.all().map(i=>i.json).filter(l=>l&&/^[a-z0-9-]+(\\.[a-z0-9-]+)+$/.test(String(l.company_domain||'')));\nif(!leads.length) return [];\nconst domains=[...new Set(leads.map(l=>l.company_domain))];\nconst list=domains.map(d=>'\"'+d+'\"').join(',');\nreturn [{json:{cache_filter:'company_domain=in.('+list+')',leads}}];"
+      },
+      "id": "da8daca7-8327-4898-9e98-03381ce5433a",
+      "name": "Build Cache Query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 8640,
+        "1": 1536
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "inbound_intent_log",
+        "returnAll": true,
+        "filterType": "string",
+        "filterString": "={{ $json.cache_filter }}"
+      },
+      "id": "ffae104d-f1a5-4545-a7a2-2e7b15e5b2f7",
+      "name": "Supabase Cache Check",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 8944,
+        "1": 1536
+      },
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const seen=new Set();\nconst leads=$('Build Cache Query').all().flatMap(i=>i.json.leads||[]).filter(l=>l&&l.company_domain&&!seen.has(l.company_domain)&&seen.add(l.company_domain));\nconst rows=$input.all().map(i=>i.json).filter(r=>r&&r.company_domain);\nconst byDomain=new Map(rows.map(r=>[r.company_domain,r]));\nreturn leads.map(l=>{const r=byDomain.get(l.company_domain);return {json:{...l,cache_hit:!!r,cache_row_id:r?(r.id??r.company_domain):null,cache_status:r?(r.routing_status??r.status??null):null}};});"
+      },
+      "id": "fc0f69b0-a1fc-4b67-93fa-de97a893b754",
+      "name": "Merge Cache Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 9248,
+        "1": 1536
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "53246274-bf03-4b78-afa0-ff0a6445880e",
+              "leftValue": "={{ !$json.cache_row_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3ddf0343-bdf9-4ec6-9260-bc07a9058c38",
+      "name": "Is Lead New?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": {
+        "0": 9552,
+        "1": 1536
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "inbound_intent_log",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "company_domain",
+              "fieldValue": "={{ $json.company_domain }}"
+            },
+            {
+              "fieldId": "visitor_anonymous_id",
+              "fieldValue": "={{ $json.visitor_anonymous_id }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ $json.source }}"
+            },
+            {
+              "fieldId": "routing_status",
+              "fieldValue": "enrichment_pending"
+            },
+            {
+              "fieldId": "execution_id",
+              "fieldValue": "={{ $json.execution_id }}"
+            },
+            {
+              "fieldId": "first_seen_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            },
+            {
+              "fieldId": "last_seen_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "id": "dc48f451-e9e0-4235-8bc9-608e3bafddb0",
+      "name": "Log Pending Row (Cache Guard)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 9840,
+        "1": 1408
+      },
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.clay.com/v3/sources/webhook/e68c2934-ff18-4431-b1e4-f644c75cd895",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-clay-webhook-auth",
+              "value": "c15eda4d9355967305a6"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"company_domain\": \"={{ $json.company_domain }}\",\n  \"visitor_anonymous_id\": \"={{ $json.visitor_anonymous_id }}\",\n  \"intent_source\": \"={{ $('Is Lead New?').item.json.source }}\",\n  \"signals\": \"={{ $('Is Lead New?').item.json.signals }}\",\n  \"execution_id\": \"={{ $('Is Lead New?').item.json.execution_id }}\",\n  \"workflow_id\": \"={{ $('Is Lead New?').item.json.workflow_id }}\",\n  \"t_start\": \"={{ $('Is Lead New?').item.json.t_start }}\",\n  \"clay_sent_at\": \"={{ Date.now() }}\",\n  \"callback_url\": \"https://yatinjoshi05.app.n8n.cloud/webhook/v1/rloe-clay-callback\"\n}\n",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "8c3d3f84-d5b5-4706-b028-417592e847f6",
+      "name": "Trigger Clay Waterfall",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": {
+        "0": 10144,
+        "1": 1408
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": []
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { hs_timestamp: $now.toISO(), hs_task_subject: 'RLOE: returning signal from ' + $('Is Lead New?').item.json.company_domain, hs_task_body: 'Source: ' + $('Is Lead New?').item.json.source + ' | Prior status: ' + ($('Is Lead New?').item.json.cache_status || 'unknown') + ' | Signals: ' + JSON.stringify($('Is Lead New?').item.json.signals), hs_task_status: 'NOT_STARTED', hs_task_priority: 'MEDIUM' } }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "2bbee97b-2994-4224-9e41-d15e373abb07",
+      "name": "HubSpot Task: Returning Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": {
+        "0": 9840,
+        "1": 1664
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "inbound_intent_log",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "company_domain",
+              "condition": "eq",
+              "keyValue": "={{ $('Is Lead New?').item.json.company_domain }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "last_seen_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            },
+            {
+              "fieldId": "last_source",
+              "fieldValue": "={{ $('Is Lead New?').item.json.source }}"
+            }
+          ]
+        }
+      },
+      "id": "37711535-71e3-4417-9151-fc9392b5b415",
+      "name": "Touch Existing Lead Record",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 10144,
+        "1": 1664
+      },
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "tableId": "rloe_telemetry",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "execution_id",
+              "fieldValue": "={{ $('Is Lead New?').item.json.execution_id }}"
+            },
+            {
+              "fieldId": "workflow_id",
+              "fieldValue": "={{ $('Is Lead New?').item.json.workflow_id }}"
+            },
+            {
+              "fieldId": "company_domain",
+              "fieldValue": "={{ $('Is Lead New?').item.json.company_domain }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ $('Is Lead New?').item.json.source }}"
+            },
+            {
+              "fieldId": "stage",
+              "fieldValue": "cache_hit"
+            },
+            {
+              "fieldId": "outcome",
+              "fieldValue": "existing_lead_crm_task"
+            },
+            {
+              "fieldId": "route",
+              "fieldValue": "crm_touch"
+            },
+            {
+              "fieldId": "cache_hit",
+              "fieldValue": "true"
+            },
+            {
+              "fieldId": "llm_called",
+              "fieldValue": "false"
+            },
+            {
+              "fieldId": "input_tokens",
+              "fieldValue": "0"
+            },
+            {
+              "fieldId": "output_tokens",
+              "fieldValue": "0"
+            },
+            {
+              "fieldId": "est_cost_usd",
+              "fieldValue": "0"
+            },
+            {
+              "fieldId": "latency_ms",
+              "fieldValue": "={{ Date.now() - $('Is Lead New?').item.json.t_start }}"
+            },
+            {
+              "fieldId": "processing_ms",
+              "fieldValue": "={{ Date.now() - $('Is Lead New?').item.json.t_start }}"
+            },
+            {
+              "fieldId": "total_ms",
+              "fieldValue": "={{ Date.now() - $('Is Lead New?').item.json.t_start }}"
+            },
+            {
+              "fieldId": "enrichment_wait_ms",
+              "fieldValue": "0"
+            }
+          ]
+        }
+      },
+      "id": "42cc9c80-ccca-4459-98e9-9ada9e206695",
+      "name": "Insert Telemetry (Existing Lead)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 10448,
+        "1": 1664
+      },
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "v1/rloe-clay-callback",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "id": "dc7f39a1-b84c-46c3-a2c8-9978620739df",
+      "name": "Clay Callback Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": {
+        "0": 7152,
+        "1": 2096
+      },
+      "webhookId": "f1c11015-4a1d-46f2-af9d-d1f3df9e8bd1",
+      "credentials": {
+        "httpHeaderAuth": {}
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\n// ---- EDIT THESE ICP CONSTANTS ----\nconst MIN_PRESCORE=35, MIN_EMP=20, MAX_EMP=5000;\nconst TARGET_INDUSTRIES=['software','saas','fintech','financial technology','artificial intelligence','information technology','internet','data'];\nconst TARGET_COUNTRIES=['united states','canada','united kingdom','germany','australia','netherlands'];\nconst GOOD_TECH=['hubspot','salesforce','segment','snowflake','stripe','intercom'];\nconst GOOD_FUNDING=['seed','series a','series b','series c','series d'];\n// -----------------------------------\nconst b=($json.body&&typeof $json.body==='object')?$json.body:$json;\nif(!b.company_domain) throw new Error('Clay callback missing company_domain');\nconst emp=parseInt(b.employee_count,10);\nlet s=0;\nif(Number.isFinite(emp)){ s+= (emp>=MIN_EMP&&emp<=MAX_EMP)?40:(emp>=10&&emp<=20000?20:0);} else s+=10;\nconst ind=String(b.industry||'').toLowerCase();\ns+= ind? (TARGET_INDUSTRIES.some(k=>ind.includes(k))?30:0):5;\nconst ctry=String(b.country||'').toLowerCase();\ns+= TARGET_COUNTRIES.includes(ctry)?15:0;\nconst tech=(Array.isArray(b.tech_stack)?b.tech_stack:String(b.tech_stack||'').split(',')).map(x=>String(x).toLowerCase());\nif(GOOD_TECH.some(t=>tech.some(x=>x.includes(t)))) s+=8;\nif(GOOD_FUNDING.includes(String(b.funding_stage||'').toLowerCase())) s+=7;\nconst enrichment={company_name:b.company_name??null,employee_count:Number.isFinite(emp)?emp:null,industry:b.industry??null,country:b.country??null,annual_revenue:b.annual_revenue??null,funding_stage:b.funding_stage??null,tech_stack:tech.slice(0,25),linkedin_url:b.linkedin_url??null,hiring_signals:b.hiring_signals??null,funding_signals:b.funding_signals??null};\nreturn {json:{\n company_domain:String(b.company_domain).toLowerCase(), visitor_anonymous_id:b.visitor_anonymous_id||null,\n source:b.source||'inbound_web', signals:b.signals||{}, cache_hit:false,\n execution_id:String(b.execution_id||$execution.id), workflow_id:String(b.workflow_id||$workflow.id), t_start:Number(b.t_start)||Date.now(), clay_sent_at:Number(b.clay_sent_at)||null, callback_received_at:Date.now(),\n enrichment, prefilter_score:s, llm_eligible:s>=MIN_PRESCORE,\n llm_called:false, llm_valid:false, llm_error:null, input_tokens:0, output_tokens:0, est_cost_usd:0\n}};\n"
+      },
+      "id": "632bad97-bacf-483f-89c7-01c73937f172",
+      "name": "Deterministic Pre-Filter & Pre-Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 7440,
+        "1": 2096
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1e45948a-ec11-400c-911f-daeff337162a",
+              "leftValue": "={{ $json.llm_eligible }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b4e05ec1-567b-4a4a-ab93-23f3a208eb47",
+      "name": "Worth Spending LLM Tokens?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": {
+        "0": 7744,
+        "1": 2096
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const MODEL = 'nvidia/nemotron-3.5-lightning-30b-a3b';\nconst lead = $json;\nconst SYSTEM = 'You are a GTM scoring engine. Output ONLY one minified JSON object and nothing else: no markdown, no backticks, no commentary. Schema: {\"icp_fit_score\":integer 0-100,\"intent_strength_score\":integer 0-100,\"calculated_churn_risk_level\":\"low\"|\"medium\"|\"high\"|\"critical\"}. icp_fit_score = how well the company matches the ideal customer profile (B2B SaaS/AI/fintech, 20-5000 employees, North America/Europe, modern GTM stack). intent_strength_score = how strong the current buying signal is, judged separately from ICP fit, using the signals provided. calculated_churn_risk_level = churn risk for an existing or trialing account based on usage signals (wau_drop_pct, days_since_last_login, seat_utilization_pct); use \"low\" when no usage signals are present. Use only the data provided. If data is missing, score conservatively.';\nconst payload = JSON.stringify({\n  company_domain: lead.company_domain,\n  source: lead.source,\n  signals: lead.signals,\n  enrichment: lead.enrichment,\n  prefilter_score: lead.prefilter_score\n}).slice(0, 6000);\n\nconst nvidia_request = {\n  model: MODEL,\n  messages: [\n    { role: 'system', content: SYSTEM },\n    { role: 'user', content: payload }\n  ],\n  temperature: 0.1,\n  top_p: 0.95,\n  max_tokens: 500,\n  stream: false,\n  chat_template_kwargs: { enable_thinking: false }\n};\n\nreturn {\n  json: {\n    lead,\n    nvidia_request,\n    claude_request: nvidia_request\n  }\n};"
+      },
+      "id": "ebf80e84-540e-4326-9e68-a5bf2acdee20",
+      "name": "Build Claude Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 8048,
+        "1": 1984
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://integrate.api.nvidia.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.claude_request) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "74900943-6412-439c-a247-741add13da58",
+      "name": "Claude GTM Router",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": {
+        "0": 8352,
+        "1": 1984
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const PRICE_IN_PER_MTOK = 0.30, PRICE_OUT_PER_MTOK = 0.60; // NVIDIA Nemotron pricing\nlet lead;\ntry { lead = $('Build Claude Request').item.json.lead; } catch(e) { lead = $('Build Claude Request').all()[$itemIndex].json.lead; }\nconst res = $json;\n\nlet text = '';\nif (res.choices && res.choices[0] && res.choices[0].message && res.choices[0].message.content) {\n  text = res.choices[0].message.content;\n} else if (Array.isArray(res.content)) {\n  text = res.content.filter(x => x.type === 'text').map(x => x.text).join('');\n} else if (typeof res === 'string') {\n  text = res;\n}\ntext = text.trim();\n\nlet p = null, err = null;\ntry {\n  const a = text.indexOf('{'), z = text.lastIndexOf('}');\n  if (a === -1 || z <= a) throw new Error('no_json_block');\n  p = JSON.parse(text.slice(a, z + 1));\n} catch(e) {\n  err = 'invalid_json_from_llm';\n}\n\nconst LV = ['low', 'medium', 'high', 'critical'];\nlet valid = false;\nif (p && Number.isInteger(p.icp_fit_score) && p.icp_fit_score >= 0 && p.icp_fit_score <= 100 &&\n    Number.isInteger(p.intent_strength_score) && p.intent_strength_score >= 0 && p.intent_strength_score <= 100 &&\n    LV.includes(p.calculated_churn_risk_level)) {\n  valid = true;\n} else if (!err) {\n  err = 'schema_validation_failed';\n}\n\nconst u = res.usage || {};\nconst inT = u.prompt_tokens || u.input_tokens || 0;\nconst outT = u.completion_tokens || u.output_tokens || 0;\n\nreturn {\n  json: {\n    ...lead,\n    llm_called: true,\n    llm_valid: valid,\n    llm_error: valid ? null : err,\n    llm_model: res.model || 'nvidia/nemotron-3.5-lightning-30b-a3b',\n    icp_fit_score: valid ? p.icp_fit_score : null,\n    intent_strength_score: valid ? p.intent_strength_score : null,\n    calculated_churn_risk_level: valid ? p.calculated_churn_risk_level : null,\n    input_tokens: inT,\n    output_tokens: outT,\n    est_cost_usd: Number(((inT * PRICE_IN_PER_MTOK + outT * PRICE_OUT_PER_MTOK) / 1e6).toFixed(6))\n  }\n};"
+      },
+      "id": "3478b85a-b7e1-4a11-8f82-4178669ad72d",
+      "name": "Parse & Validate Claude Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 8640,
+        "1": 1984
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let lead;\ntry { lead = $('Build Claude Request').item.json.lead; } catch(e) { lead = $('Build Claude Request').all()[$itemIndex].json.lead; }\nconst msg = ($json.error && ($json.error.message || JSON.stringify($json.error))) || JSON.stringify($json).slice(0, 500);\nreturn {\n  json: {\n    ...lead,\n    llm_called: true,\n    llm_valid: false,\n    llm_error: 'nvidia_http_error',\n    error_node: 'Claude GTM Router',\n    error_message: String(msg).slice(0, 1000)\n  }\n};"
+      },
+      "id": "be9bf672-966b-42c7-9384-9d17d3c0d6d6",
+      "name": "Format Claude Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 8640,
+        "1": 2224
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "system_error_log",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "execution_id",
+              "fieldValue": "={{ $json.execution_id }}"
+            },
+            {
+              "fieldId": "workflow_id",
+              "fieldValue": "={{ $json.workflow_id }}"
+            },
+            {
+              "fieldId": "node_name",
+              "fieldValue": "={{ $json.error_node }}"
+            },
+            {
+              "fieldId": "error_message",
+              "fieldValue": "={{ $json.error_message }}"
+            },
+            {
+              "fieldId": "company_domain",
+              "fieldValue": "={{ $json.company_domain }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ $json.source }}"
+            },
+            {
+              "fieldId": "severity",
+              "fieldValue": "error"
+            }
+          ]
+        }
+      },
+      "id": "946db221-7aaa-4f3d-82ea-72e1f8fb7df8",
+      "name": "Insert Error Log (Claude)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 8944,
+        "1": 2224
+      },
+      "credentials": {
+        "supabaseApi": {}
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\nconst l=$json;\nlet route,status,outcome;\nif(!l.llm_called){route='disqualified';status='disqualified';outcome='skipped_llm_prefilter';}\nelse if(!l.llm_valid){route='needs_review';status='needs_review';outcome='llm_failed_or_invalid';}\nelse if(['high','critical'].includes(l.calculated_churn_risk_level)){route='churn_save';status='scored';outcome='scored_churn_risk';}\nelse if(l.icp_fit_score>=70&&l.intent_strength_score>=60){route='sales_priority';status='scored';outcome='scored_hot';}\nelse if(l.icp_fit_score<40){route='disqualified';status='disqualified';outcome='scored_low_fit';}\nelse{route='nurture';status='scored';outcome='scored_nurture';}\nconst createTask=['sales_priority','churn_save','needs_review'].includes(route);\nconst now=Date.now(); const total=now-Number(l.t_start||now);\nconst wait=(l.clay_sent_at&&l.callback_received_at)?Math.max(0,Number(l.callback_received_at)-Number(l.clay_sent_at)):0;\nconst processing=Math.max(0,total-wait);\nreturn {json:{...l,route,status,outcome,create_crm_task:createTask,latency_ms:processing,processing_ms:processing,enrichment_wait_ms:wait,total_ms:total,\n enrichment_summary:JSON.stringify(l.enrichment||{}).slice(0,2000)}};\n"
+      },
+      "id": "3daf5255-396b-4eb8-a17f-4cfcc198396c",
+      "name": "Routing Decision & Telemetry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 9248,
+        "1": 2096
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "inbound_intent_log",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "company_domain",
+              "condition": "eq",
+              "keyValue": "={{ $json.company_domain }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "routing_status",
+              "fieldValue": "={{ $json.status }}"
+            },
+            {
+              "fieldId": "route",
+              "fieldValue": "={{ $json.route }}"
+            },
+            {
+              "fieldId": "icp_fit_score",
+              "fieldValue": "={{ ($json.icp_fit_score === null || $json.icp_fit_score === undefined || $json.icp_fit_score === '' || !Number.isFinite(Number($json.icp_fit_score))) ? 0 : Math.round(Number($json.icp_fit_score)) }}"
+            },
+            {
+              "fieldId": "intent_strength_score",
+              "fieldValue": "={{ ($json.intent_strength_score === null || $json.intent_strength_score === undefined || $json.intent_strength_score === '' || !Number.isFinite(Number($json.intent_strength_score))) ? 0 : Math.round(Number($json.intent_strength_score)) }}"
+            },
+            {
+              "fieldId": "company_name",
+              "fieldValue": "={{ $json.enrichment.company_name }}"
+            },
+            {
+              "fieldId": "enrichment_summary",
+              "fieldValue": "={{ $json.enrichment_summary || $json.system_error_log || '' }}\n"
+            },
+            {
+              "fieldId": "prefilter_score",
+              "fieldValue": "={{ ($json.prefilter_score === null || $json.prefilter_score === undefined || $json.prefilter_score === '' || !Number.isFinite(Number($json.prefilter_score))) ? 0 : Math.round(Number($json.prefilter_score)) }}"
+            },
+            {
+              "fieldId": "churn_risk_level",
+              "fieldValue": "={{ $json.calculated_churn_risk_level || \"\" }}"
+            },
+            {
+              "fieldId": "last_seen_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "id": "c3065843-1814-496d-b144-6dad4282b871",
+      "name": "Update Lead Record",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 9552,
+        "1": 2096
+      },
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "tableId": "rloe_telemetry",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "execution_id",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.execution_id }}"
+            },
+            {
+              "fieldId": "workflow_id",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.workflow_id }}"
+            },
+            {
+              "fieldId": "company_domain",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.company_domain }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.source }}"
+            },
+            {
+              "fieldId": "stage",
+              "fieldValue": "scored"
+            },
+            {
+              "fieldId": "outcome",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.outcome }}"
+            },
+            {
+              "fieldId": "route",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.route }}"
+            },
+            {
+              "fieldId": "cache_hit",
+              "fieldValue": "false"
+            },
+            {
+              "fieldId": "prefilter_score",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.prefilter_score }}"
+            },
+            {
+              "fieldId": "llm_called",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.llm_called }}"
+            },
+            {
+              "fieldId": "llm_model",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.llm_model || '' }}"
+            },
+            {
+              "fieldId": "input_tokens",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.input_tokens }}"
+            },
+            {
+              "fieldId": "output_tokens",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.output_tokens }}"
+            },
+            {
+              "fieldId": "est_cost_usd",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.est_cost_usd }}"
+            },
+            {
+              "fieldId": "latency_ms",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.latency_ms }}"
+            },
+            {
+              "fieldId": "error_message",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.llm_error || '' }}"
+            },
+            {
+              "fieldId": "processing_ms",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.processing_ms }}"
+            },
+            {
+              "fieldId": "enrichment_wait_ms",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.enrichment_wait_ms }}"
+            },
+            {
+              "fieldId": "total_ms",
+              "fieldValue": "={{ $('Routing Decision & Telemetry').item.json.total_ms }}"
+            }
+          ]
+        }
+      },
+      "id": "e6bd826a-a5a0-4d0f-9412-587ae1c001fd",
+      "name": "Insert Telemetry",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 9840,
+        "1": 2096
+      },
+      "credentials": {
+        "supabaseApi": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1a2b3fa-5ee6-4840-8d03-875de2d32aab",
+              "leftValue": "={{ $('Routing Decision & Telemetry').item.json.create_crm_task }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2060fa75-81c4-4ea6-b4c6-32f8f7833ec2",
+      "name": "Needs CRM Task?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": {
+        "0": 10144,
+        "1": 1984
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { hs_timestamp: $now.toISO(), hs_task_subject: 'RLOE [' + $('Routing Decision & Telemetry').item.json.route + ']: ' + $('Routing Decision & Telemetry').item.json.company_domain, hs_task_body: 'ICP fit: ' + $('Routing Decision & Telemetry').item.json.icp_fit_score + ' | Intent: ' + $('Routing Decision & Telemetry').item.json.intent_strength_score + ' | Churn risk: ' + $('Routing Decision & Telemetry').item.json.calculated_churn_risk_level + ' | Source: ' + $('Routing Decision & Telemetry').item.json.source, hs_task_status: 'NOT_STARTED', hs_task_priority: ($('Routing Decision & Telemetry').item.json.route === 'sales_priority' || $('Routing Decision & Telemetry').item.json.calculated_churn_risk_level === 'critical') ? 'HIGH' : 'MEDIUM' } }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "f472786d-d325-4ec3-915a-0ab75b0fbb1b",
+      "name": "HubSpot Task: Scored Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": {
+        "0": 10448,
+        "1": 1984
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "id": "8119791b-395e-40cf-b639-a26e20376043",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": {
+        "0": 7152,
+        "1": 2832
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\nconst e=$json;\nreturn {json:{execution_id:String(e.execution?.id??''),workflow_id:String(e.workflow?.id??''),node_name:e.execution?.lastNodeExecuted??'unknown',error_message:String(e.execution?.error?.message??'unknown').slice(0,1000)}};\n"
+      },
+      "id": "c390b39a-e771-41f6-abfd-74131c744490",
+      "name": "Format Workflow Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 7440,
+        "1": 2832
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "system_error_log",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "execution_id",
+              "fieldValue": "={{ $json.execution_id }}"
+            },
+            {
+              "fieldId": "workflow_id",
+              "fieldValue": "={{ $json.workflow_id }}"
+            },
+            {
+              "fieldId": "node_name",
+              "fieldValue": "={{ $json.node_name }}"
+            },
+            {
+              "fieldId": "error_message",
+              "fieldValue": "={{ $json.error_message }}"
+            },
+            {
+              "fieldId": "severity",
+              "fieldValue": "critical"
+            }
+          ]
+        }
+      },
+      "id": "2f63625a-1563-4e16-b3ab-d988fd985feb",
+      "name": "Insert Error Log (Workflow)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 7744,
+        "1": 2832
+      },
+      "credentials": {
+        "supabaseApi": {}
+      }
+    },
+    {
+      "parameters": {
+        "content": "## OFFENSE: inbound firehose\nAnonymous web visitors hit the secured webhook.\n\n## DEFENSE: PLG churn\nA 15-minute poller turns `product_usage_log` rows into the same payload shape. Both lanes meet at the Parser.",
+        "height": 120,
+        "width": 1100,
+        "color": 4
+      },
+      "id": "73af9878-149a-4f9c-8ab3-53670d7039ba",
+      "name": "Note: Offense",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": {
+        "0": 7120,
+        "1": 1248
+      }
+    },
+    {
+      "parameters": {
+        "content": "## CACHE-FIRST ROUTING\nParser (validate + normalize) -> one batched Supabase cache lookup -> new leads get a pending row (blocks duplicate Clay spend) then Clay; returning leads go straight to HubSpot.",
+        "height": 120,
+        "width": 2500,
+        "color": 6
+      },
+      "id": "64277abf-5ece-46f1-84b0-da44b52b1c36",
+      "name": "Note: Core",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": {
+        "0": 8320,
+        "1": 1248
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ASYNC ENRICHMENT, GATED AI, CRM SYNC, TELEMETRY",
+        "height": 70,
+        "width": 3500,
+        "color": 5
+      },
+      "id": "a9c7ea39-b466-4686-86a7-d1b06789f05c",
+      "name": "Note: Scoring",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": {
+        "0": 7120,
+        "1": 1888
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ERROR LOGGING\nSet this workflow as its own Error Workflow in Workflow Settings. Failing nodes route their error output to \"Format Node Error\" -> system_error_log.",
+        "height": 100,
+        "width": 900,
+        "color": 3
+      },
+      "id": "9eb1dad0-4f2f-4250-b41c-67249c542f23",
+      "name": "Note: Errors",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": {
+        "0": 7120,
+        "1": 2688
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ffa466a1-5ff9-4c67-8999-b6de4c20a95f",
+              "leftValue": "={{ $('Routing Decision & Telemetry').item.json.route === 'sales_priority' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "04bf7db3-7b07-4a0d-a750-39d8a091a5eb",
+      "name": "High-Value Deal?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": {
+        "0": 10144,
+        "1": 2208
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/deals",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { dealname: 'RLOE: ' + $('Routing Decision & Telemetry').item.json.company_domain, pipeline: 'default', dealstage: 'appointmentscheduled', description: 'Meeting Scheduled stage | ICP fit: ' + $('Routing Decision & Telemetry').item.json.icp_fit_score + ' | Intent: ' + $('Routing Decision & Telemetry').item.json.intent_strength_score + ' | Churn risk: ' + $('Routing Decision & Telemetry').item.json.calculated_churn_risk_level + ' | Source: ' + $('Routing Decision & Telemetry').item.json.source } }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "5eeeb565-9434-459f-a2f4-e6b67b1bb55b",
+      "name": "HubSpot CRM Sync",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": {
+        "0": 10448,
+        "1": 2208
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {}
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\nconst e=$json.error||{};\nreturn {json:{execution_id:String($execution.id),workflow_id:String($workflow.id),node_name:(e.node&&e.node.name)||e.nodeName||'unknown_node',error_message:String(e.message||e.description||JSON.stringify($json)).slice(0,1000),company_domain:$json.company_domain||null,source:$json.source||null,severity:'error'}};\n"
+      },
+      "id": "ae532752-35b2-4ebb-827f-4b884667d826",
+      "name": "Format Node Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": {
+        "0": 9248,
+        "1": 2528
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "system_error_log",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "execution_id",
+              "fieldValue": "={{ $json.execution_id }}"
+            },
+            {
+              "fieldId": "workflow_id",
+              "fieldValue": "={{ $json.workflow_id }}"
+            },
+            {
+              "fieldId": "node_name",
+              "fieldValue": "={{ $json.node_name }}"
+            },
+            {
+              "fieldId": "error_message",
+              "fieldValue": "={{ $json.error_message }}"
+            },
+            {
+              "fieldId": "company_domain",
+              "fieldValue": "={{ $json.company_domain }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ $json.source }}"
+            },
+            {
+              "fieldId": "severity",
+              "fieldValue": "={{ $json.severity }}"
+            }
+          ]
+        }
+      },
+      "id": "49626afd-bd7e-4278-b739-7f08d66b6f8b",
+      "name": "Insert Error Log (Node Failures)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": {
+        "0": 9552,
+        "1": 2528
+      },
+      "credentials": {
+        "supabaseApi": {}
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Inbound Gate": {
+      "main": [
+        [
+          {
+            "node": "Payload Verification Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PLG Usage Poller (every 15 min)": {
+      "main": [
+        [
+          {
+            "node": "Get Unprocessed Usage Logs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Unprocessed Usage Logs": {
+      "main": [
+        [
+          {
+            "node": "Mark Usage Rows Processed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Usage Rows Processed": {
+      "main": [
+        [
+          {
+            "node": "Map Usage Log To Payload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Usage Log To Payload": {
+      "main": [
+        [
+          {
+            "node": "Payload Verification Parser",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payload Verification Parser": {
+      "main": [
+        [
+          {
+            "node": "Build Cache Query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Cache Query": {
+      "main": [
+        [
+          {
+            "node": "Supabase Cache Check",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Cache Check": {
+      "main": [
+        [
+          {
+            "node": "Merge Cache Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Cache Result": {
+      "main": [
+        [
+          {
+            "node": "Is Lead New?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Lead New?": {
+      "main": [
+        [
+          {
+            "node": "Log Pending Row (Cache Guard)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HubSpot Task: Returning Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Pending Row (Cache Guard)": {
+      "main": [
+        [
+          {
+            "node": "Trigger Clay Waterfall",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HubSpot Task: Returning Lead": {
+      "main": [
+        [
+          {
+            "node": "Touch Existing Lead Record",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Touch Existing Lead Record": {
+      "main": [
+        [
+          {
+            "node": "Insert Telemetry (Existing Lead)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clay Callback Webhook": {
+      "main": [
+        [
+          {
+            "node": "Deterministic Pre-Filter & Pre-Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deterministic Pre-Filter & Pre-Score": {
+      "main": [
+        [
+          {
+            "node": "Worth Spending LLM Tokens?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Worth Spending LLM Tokens?": {
+      "main": [
+        [
+          {
+            "node": "Build Claude Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Routing Decision & Telemetry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Claude Request": {
+      "main": [
+        [
+          {
+            "node": "Claude GTM Router",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude GTM Router": {
+      "main": [
+        [
+          {
+            "node": "Parse & Validate Claude Output",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Claude Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse & Validate Claude Output": {
+      "main": [
+        [
+          {
+            "node": "Routing Decision & Telemetry",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Claude Error": {
+      "main": [
+        [
+          {
+            "node": "Insert Error Log (Claude)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Routing Decision & Telemetry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Routing Decision & Telemetry": {
+      "main": [
+        [
+          {
+            "node": "Update Lead Record",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Lead Record": {
+      "main": [
+        [
+          {
+            "node": "Insert Telemetry",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert Telemetry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Telemetry": {
+      "main": [
+        [
+          {
+            "node": "Needs CRM Task?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "High-Value Deal?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Needs CRM Task?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "High-Value Deal?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs CRM Task?": {
+      "main": [
+        [
+          {
+            "node": "HubSpot Task: Scored Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Format Workflow Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Workflow Error": {
+      "main": [
+        [
+          {
+            "node": "Insert Error Log (Workflow)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "High-Value Deal?": {
+      "main": [
+        [
+          {
+            "node": "HubSpot CRM Sync",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Node Error": {
+      "main": [
+        [
+          {
+            "node": "Insert Error Log (Node Failures)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Clay Waterfall": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HubSpot Task: Scored Lead": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HubSpot CRM Sync": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Telemetry (Existing Lead)": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Format Node Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "tags": [],
+  "versionId": "2fd6655b-6816-4fbe-9e4e-10dd235da092",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "99MNkuUquGSPlxXW"
+}

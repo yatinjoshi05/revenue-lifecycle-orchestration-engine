@@ -1,0 +1,2348 @@
+{
+  "context": {
+    "user": {
+      "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+      "name": "Alex Morgan",
+      "email": "alex@northwind.co",
+      "image": null
+    },
+    "workspace": {
+      "id": "db2a6fca-2397-43ed-814b-3f46f25459d1",
+      "name": "Northwind",
+      "slug": "company"
+    },
+    "role": "owner"
+  },
+  "exportedAt": "2026-10-02T16:50:36.382Z",
+  "state": {
+    "lists": [
+      [
+        "8b76d67a-953f-4f16-a4cb-5d353ac5d5b5",
+        {
+          "id": "8b76d67a-953f-4f16-a4cb-5d353ac5d5b5",
+          "name": "Q4 commit",
+          "createdAt": "2026-10-01T17:55:04.327+00:00",
+          "recordIds": [
+            "132ebafe-2497-4efc-b370-3d35fef90ec1",
+            "148ff78a-294e-4175-903b-6d44aa96ff67",
+            "97796a25-d5bf-486a-957f-75bbe6a55ff7",
+            "d2276825-243d-487f-ad75-09a8d9263e46",
+            "d4698fa2-a8f1-4333-98a9-03165a58852c"
+          ],
+          "updatedAt": "2026-10-01T17:55:04.395+00:00",
+          "recordType": "opportunities"
+        }
+      ],
+      [
+        "792f0232-5855-4a6d-a067-3e58a109dba4",
+        {
+          "id": "792f0232-5855-4a6d-a067-3e58a109dba4",
+          "name": "Strategic accounts",
+          "createdAt": "2026-10-01T17:55:04.409+00:00",
+          "recordIds": [
+            "48bca1de-fc15-4414-93d2-dc01e571c09e",
+            "56e0f039-9b38-4d2e-8583-580cde768b64",
+            "ad5f74df-85a5-4b14-8575-05ebece5767d",
+            "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+            "b3f3ca19-7f88-4982-a41d-858a04d08674",
+            "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1"
+          ],
+          "updatedAt": "2026-10-01T17:55:04.49+00:00",
+          "recordType": "accounts"
+        }
+      ],
+      [
+        "752c896a-e1bc-4349-9ddf-b28c6572ae44",
+        {
+          "id": "752c896a-e1bc-4349-9ddf-b28c6572ae44",
+          "name": "Champions",
+          "createdAt": "2026-10-01T17:55:04.503+00:00",
+          "recordIds": [
+            "1af7c8f9-bb7c-4726-bc9d-34e7a059a214",
+            "5a782d76-db12-450a-a1b0-e276127538b4",
+            "bc746029-7396-4c88-96dd-174b21f43ccd",
+            "e2e9bce0-bb4b-4ad5-b74b-205b9d318651",
+            "fa85800e-9ae2-48f0-a660-ba59756ed317"
+          ],
+          "updatedAt": "2026-10-01T17:55:04.572+00:00",
+          "recordType": "contacts"
+        }
+      ]
+    ],
+    "members": [
+      [
+        "6c7138af-bc42-4530-bc96-ff7255759a65",
+        {
+          "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+          "name": "Alex Morgan",
+          "email": "alex@northwind.co",
+          "image": null
+        }
+      ],
+      [
+        "76aed3b8-9e82-43e8-9191-87814628d1ad",
+        {
+          "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+          "name": "Jamie Rivera",
+          "email": "jamie@northwind.co",
+          "image": null
+        }
+      ],
+      [
+        "13c9049c-460f-4183-a03b-ce57b28ef55a",
+        {
+          "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+          "name": "Sofia Nguyen",
+          "email": "sofia@northwind.co",
+          "image": null
+        }
+      ]
+    ],
+    "entities": [
+      [
+        "48bca1de-fc15-4414-93d2-dc01e571c09e",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "48bca1de-fc15-4414-93d2-dc01e571c09e",
+            "name": "Brightpath Logistics",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "revenue": 112000000,
+            "twitter": "",
+            "website": "https://brightpath.co",
+            "activity": [
+              {
+                "id": "ea13f040-bcd6-49cf-8ba3-537c3c2fa180",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.156Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Logistics",
+            "linkedin": "https://www.linkedin.com/company/brightpath",
+            "location": "Chicago, IL",
+            "createdAt": "2026-10-01T17:55:03.155Z",
+            "headcount": 870,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.156Z"
+          }
+        }
+      ],
+      [
+        "d3af9352-cfb0-4ae5-8f6a-e8287cad8856",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "d3af9352-cfb0-4ae5-8f6a-e8287cad8856",
+            "name": "Quarry Labs",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "revenue": 9500000,
+            "twitter": "",
+            "website": "https://quarrylabs.dev",
+            "activity": [
+              {
+                "id": "f07351ea-405a-443b-a1e4-10dbc94dfecc",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.174Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Developer Tools",
+            "linkedin": "https://www.linkedin.com/company/quarrylabs",
+            "location": "Austin, TX",
+            "createdAt": "2026-10-01T17:55:03.173Z",
+            "headcount": 64,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.174Z"
+          }
+        }
+      ],
+      [
+        "bb8f9b0c-3a99-45ce-a5e4-e4bb01c0f32b",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "bb8f9b0c-3a99-45ce-a5e4-e4bb01c0f32b",
+            "name": "Tidewater Finance",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "revenue": 31000000,
+            "twitter": "",
+            "website": "https://tidewater.finance",
+            "activity": [
+              {
+                "id": "8aa942f0-0cc0-4ea4-a505-c1b36a87d980",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.209Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Fintech",
+            "linkedin": "https://www.linkedin.com/company/tidewater",
+            "location": "New York, NY",
+            "createdAt": "2026-10-01T17:55:03.208Z",
+            "headcount": 210,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.209Z"
+          }
+        }
+      ],
+      [
+        "22383573-7942-4bb8-bd4a-ad5e3faed5f0",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "22383573-7942-4bb8-bd4a-ad5e3faed5f0",
+            "name": "Orbitline",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "revenue": 22000000,
+            "twitter": "",
+            "website": "https://orbitline.ai",
+            "activity": [
+              {
+                "id": "75d65a60-0d2e-4398-8830-9983a5caad83",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.228Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "AI Infrastructure",
+            "linkedin": "https://www.linkedin.com/company/orbitline",
+            "location": "Seattle, WA",
+            "createdAt": "2026-10-01T17:55:03.227Z",
+            "headcount": 140,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.228Z"
+          }
+        }
+      ],
+      [
+        "b3f3ca19-7f88-4982-a41d-858a04d08674",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "b3f3ca19-7f88-4982-a41d-858a04d08674",
+            "name": "Cedarstone Retail",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "revenue": 205000000,
+            "twitter": "",
+            "website": "https://cedarstone.com",
+            "activity": [
+              {
+                "id": "3fa3de51-98c3-4223-8dfa-9bb3f25efc9a",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.247Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Retail",
+            "linkedin": "https://www.linkedin.com/company/cedarstone",
+            "location": "Denver, CO",
+            "createdAt": "2026-10-01T17:55:03.246Z",
+            "headcount": 1900,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.247Z"
+          }
+        }
+      ],
+      [
+        "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+            "name": "Kestrel Security",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "revenue": 54000000,
+            "twitter": "",
+            "website": "https://kestrelsec.com",
+            "activity": [
+              {
+                "id": "1db1b2e5-6ee7-4f42-af43-68001d163de6",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.267Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Cybersecurity",
+            "linkedin": "https://www.linkedin.com/company/kestrelsec",
+            "location": "Arlington, VA",
+            "createdAt": "2026-10-01T17:55:03.266Z",
+            "headcount": 390,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.267Z"
+          }
+        }
+      ],
+      [
+        "29ac95e6-84bd-457a-b328-cdeb36dacba5",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "29ac95e6-84bd-457a-b328-cdeb36dacba5",
+            "name": "Northbeam Studio",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "revenue": 6200000,
+            "twitter": "",
+            "website": "https://northbeam.studio",
+            "activity": [
+              {
+                "id": "e2ea6e6b-8237-461a-ad92-b62379c80197",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.287Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Design Software",
+            "linkedin": "https://www.linkedin.com/company/northbeam",
+            "location": "Portland, OR",
+            "createdAt": "2026-10-01T17:55:03.286Z",
+            "headcount": 38,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.287Z"
+          }
+        }
+      ],
+      [
+        "abcc3d9d-da4e-49b3-9e1c-cbb5500d6288",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "abcc3d9d-da4e-49b3-9e1c-cbb5500d6288",
+            "name": "Pinegrove Education",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "revenue": 14800000,
+            "twitter": "",
+            "website": "https://pinegrove.edu",
+            "activity": [
+              {
+                "id": "fab6912c-ae32-4909-9f1d-79f4bdfa5460",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.305Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "EdTech",
+            "linkedin": "https://www.linkedin.com/company/pinegrove",
+            "location": "Minneapolis, MN",
+            "createdAt": "2026-10-01T17:55:03.304Z",
+            "headcount": 120,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.305Z"
+          }
+        }
+      ],
+      [
+        "ad5f74df-85a5-4b14-8575-05ebece5767d",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "ad5f74df-85a5-4b14-8575-05ebece5767d",
+            "name": "Vantage Freight",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "revenue": 88000000,
+            "twitter": "",
+            "website": "https://vantagefreight.com",
+            "activity": [
+              {
+                "id": "9ca721a1-ceff-496e-91fc-dda9e56a1c63",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.324Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Logistics",
+            "linkedin": "https://www.linkedin.com/company/vantagefreight",
+            "location": "Atlanta, GA",
+            "createdAt": "2026-10-01T17:55:03.323Z",
+            "headcount": 640,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.324Z"
+          }
+        }
+      ],
+      [
+        "8670a058-8da9-4b95-a275-8f23609845ee",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "8670a058-8da9-4b95-a275-8f23609845ee",
+            "name": "Silverleaf Energy",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "revenue": 41000000,
+            "twitter": "",
+            "website": "https://silverleaf.energy",
+            "activity": [
+              {
+                "id": "4e577592-cc2a-4815-b7c1-a7b3b623c6ca",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.345Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Climate Tech",
+            "linkedin": "https://www.linkedin.com/company/silverleaf",
+            "location": "Oakland, CA",
+            "createdAt": "2026-10-01T17:55:03.344Z",
+            "headcount": 260,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.345Z"
+          }
+        }
+      ],
+      [
+        "afb49704-2f37-46b4-91cd-3ef44a69fd3b",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "afb49704-2f37-46b4-91cd-3ef44a69fd3b",
+            "name": "Meridian Payroll",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "revenue": 27500000,
+            "twitter": "",
+            "website": "https://meridianpayroll.com",
+            "activity": [
+              {
+                "id": "58b028ee-4cb1-4cdb-96d3-f4c44c93ab0b",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.366Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "HR Tech",
+            "linkedin": "https://www.linkedin.com/company/meridianpayroll",
+            "location": "Salt Lake City, UT",
+            "createdAt": "2026-10-01T17:55:03.365Z",
+            "headcount": 180,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:03.366Z"
+          }
+        }
+      ],
+      [
+        "bc746029-7396-4c88-96dd-174b21f43ccd",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "bc746029-7396-4c88-96dd-174b21f43ccd",
+            "name": "Priya Raman",
+            "role": "VP of Engineering",
+            "email": "priya.raman@lumenfield.io",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (415) 555-1200",
+            "activity": [
+              {
+                "id": "99cd9a89-55af-4fd0-9b08-1e3d1b18fbee",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.388Z"
+              }
+            ],
+            "accountId": "56e0f039-9b38-4d2e-8583-580cde768b64",
+            "createdAt": "2026-10-01T17:55:03.387Z",
+            "updatedAt": "2026-10-01T17:55:03.388Z"
+          }
+        }
+      ],
+      [
+        "7bcb30c3-a77c-4469-8905-1285c857b343",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "7bcb30c3-a77c-4469-8905-1285c857b343",
+            "name": "Daniel Okafor",
+            "role": "Head of Data",
+            "email": "daniel.okafor@lumenfield.io",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (516) 555-1237",
+            "activity": [
+              {
+                "id": "7b44937f-cf8b-44fb-9f38-73c0025d6323",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.410Z"
+              }
+            ],
+            "accountId": "56e0f039-9b38-4d2e-8583-580cde768b64",
+            "createdAt": "2026-10-01T17:55:03.409Z",
+            "updatedAt": "2026-10-01T17:55:03.410Z"
+          }
+        }
+      ],
+      [
+        "8482180c-8401-43b2-b327-d3467c23f0eb",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "8482180c-8401-43b2-b327-d3467c23f0eb",
+            "name": "Megan Holt",
+            "role": "COO",
+            "email": "megan.holt@brightpath.co",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "phone": "+1 (617) 555-1274",
+            "activity": [
+              {
+                "id": "c15ea309-ad9d-405c-ae0f-8f3eb2ff0bed",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.432Z"
+              }
+            ],
+            "accountId": "48bca1de-fc15-4414-93d2-dc01e571c09e",
+            "createdAt": "2026-10-01T17:55:03.431Z",
+            "updatedAt": "2026-10-01T17:55:03.432Z"
+          }
+        }
+      ],
+      [
+        "ede7b7ad-552a-4876-86b0-09b94f0b8d3f",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "ede7b7ad-552a-4876-86b0-09b94f0b8d3f",
+            "name": "Luis Ferreira",
+            "role": "Director of Operations",
+            "email": "luis.ferreira@brightpath.co",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (718) 555-1311",
+            "activity": [
+              {
+                "id": "1e7f4fa4-553c-4fd2-9724-bc4026f3e72a",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.449Z"
+              }
+            ],
+            "accountId": "48bca1de-fc15-4414-93d2-dc01e571c09e",
+            "createdAt": "2026-10-01T17:55:03.448Z",
+            "updatedAt": "2026-10-01T17:55:03.449Z"
+          }
+        }
+      ],
+      [
+        "b1ff35a7-26bd-4e7c-ac76-5724bbff9fea",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "b1ff35a7-26bd-4e7c-ac76-5724bbff9fea",
+            "name": "Sam Whitaker",
+            "role": "CTO & Co-founder",
+            "email": "sam.whitaker@quarrylabs.dev",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (819) 555-1348",
+            "activity": [
+              {
+                "id": "560fd1c4-3ac3-40f8-ae7c-25662dfb2d5a",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.468Z"
+              }
+            ],
+            "accountId": "d3af9352-cfb0-4ae5-8f6a-e8287cad8856",
+            "createdAt": "2026-10-01T17:55:03.467Z",
+            "updatedAt": "2026-10-01T17:55:03.468Z"
+          }
+        }
+      ],
+      [
+        "1af7c8f9-bb7c-4726-bc9d-34e7a059a214",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "1af7c8f9-bb7c-4726-bc9d-34e7a059a214",
+            "name": "Hannah Kim",
+            "role": "Chief Medical Officer",
+            "email": "hannah.kim@halcyonhealth.com",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "phone": "+1 (415) 555-1385",
+            "activity": [
+              {
+                "id": "e9112d48-09ad-4ae7-b64e-5f709d9f76be",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.489Z"
+              }
+            ],
+            "accountId": "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1",
+            "createdAt": "2026-10-01T17:55:03.488Z",
+            "updatedAt": "2026-10-01T17:55:03.489Z"
+          }
+        }
+      ],
+      [
+        "3b756490-0562-4536-ab22-ccc8fc0f428e",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "3b756490-0562-4536-ab22-ccc8fc0f428e",
+            "name": "Marcus Bell",
+            "role": "IT Director",
+            "email": "marcus.bell@halcyonhealth.com",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (516) 555-1422",
+            "activity": [
+              {
+                "id": "25fc89b2-ec36-4d7f-a5a0-9ce4830be100",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.510Z"
+              }
+            ],
+            "accountId": "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1",
+            "createdAt": "2026-10-01T17:55:03.509Z",
+            "updatedAt": "2026-10-01T17:55:03.510Z"
+          }
+        }
+      ],
+      [
+        "29c2d992-c4cf-4dbc-939d-c1fb6d3f73f0",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "29c2d992-c4cf-4dbc-939d-c1fb6d3f73f0",
+            "name": "Elena Petrova",
+            "role": "CFO",
+            "email": "elena.petrova@tidewater.finance",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (617) 555-1459",
+            "activity": [
+              {
+                "id": "7017f550-6245-4b75-8adb-c76609fe51d2",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.530Z"
+              }
+            ],
+            "accountId": "bb8f9b0c-3a99-45ce-a5e4-e4bb01c0f32b",
+            "createdAt": "2026-10-01T17:55:03.529Z",
+            "updatedAt": "2026-10-01T17:55:03.530Z"
+          }
+        }
+      ],
+      [
+        "5a782d76-db12-450a-a1b0-e276127538b4",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "5a782d76-db12-450a-a1b0-e276127538b4",
+            "name": "Jordan Lee",
+            "role": "Head of Platform",
+            "email": "jordan.lee@orbitline.ai",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "phone": "+1 (718) 555-1496",
+            "activity": [
+              {
+                "id": "806fc099-1a2d-40d8-b7dd-1adbca514d53",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.555Z"
+              }
+            ],
+            "accountId": "22383573-7942-4bb8-bd4a-ad5e3faed5f0",
+            "createdAt": "2026-10-01T17:55:03.554Z",
+            "updatedAt": "2026-10-01T17:55:03.555Z"
+          }
+        }
+      ],
+      [
+        "b68eaf2e-be1f-428b-8c60-968f0f12cd38",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "b68eaf2e-be1f-428b-8c60-968f0f12cd38",
+            "name": "Aisha Mensah",
+            "role": "VP Product",
+            "email": "aisha.mensah@orbitline.ai",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (819) 555-1533",
+            "activity": [
+              {
+                "id": "324d6558-f329-46c8-8b4a-819b54511e59",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.574Z"
+              }
+            ],
+            "accountId": "22383573-7942-4bb8-bd4a-ad5e3faed5f0",
+            "createdAt": "2026-10-01T17:55:03.573Z",
+            "updatedAt": "2026-10-01T17:55:03.574Z"
+          }
+        }
+      ],
+      [
+        "fa85800e-9ae2-48f0-a660-ba59756ed317",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "fa85800e-9ae2-48f0-a660-ba59756ed317",
+            "name": "Tom Gallagher",
+            "role": "SVP Digital",
+            "email": "tom.gallagher@cedarstone.com",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (415) 555-1570",
+            "activity": [
+              {
+                "id": "a2774ee1-5c3c-4e65-ab3b-71485b969d4f",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.593Z"
+              }
+            ],
+            "accountId": "b3f3ca19-7f88-4982-a41d-858a04d08674",
+            "createdAt": "2026-10-01T17:55:03.592Z",
+            "updatedAt": "2026-10-01T17:55:03.593Z"
+          }
+        }
+      ],
+      [
+        "34b0932a-e3ff-4dbf-9eb9-e7aeef83174e",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "34b0932a-e3ff-4dbf-9eb9-e7aeef83174e",
+            "name": "Rachel Stein",
+            "role": "Procurement Lead",
+            "email": "rachel.stein@cedarstone.com",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "phone": "+1 (516) 555-1607",
+            "activity": [
+              {
+                "id": "4184ebfc-abf1-4304-a3ce-8d36967b5276",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.612Z"
+              }
+            ],
+            "accountId": "b3f3ca19-7f88-4982-a41d-858a04d08674",
+            "createdAt": "2026-10-01T17:55:03.611Z",
+            "updatedAt": "2026-10-01T17:55:03.612Z"
+          }
+        }
+      ],
+      [
+        "9b8e2a95-aa29-4eb7-b42c-5f91004b253f",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "9b8e2a95-aa29-4eb7-b42c-5f91004b253f",
+            "name": "Victor Alvarez",
+            "role": "CISO",
+            "email": "victor.alvarez@kestrelsec.com",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (617) 555-1644",
+            "activity": [
+              {
+                "id": "cdeaf460-cde9-4f05-9291-4f5778a912ba",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.631Z"
+              }
+            ],
+            "accountId": "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+            "createdAt": "2026-10-01T17:55:03.630Z",
+            "updatedAt": "2026-10-01T17:55:03.631Z"
+          }
+        }
+      ],
+      [
+        "ff3f2a24-cd79-4b78-a023-47982c0bec53",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "ff3f2a24-cd79-4b78-a023-47982c0bec53",
+            "name": "Nora Lindqvist",
+            "role": "Founder",
+            "email": "nora.lindqvist@northbeam.studio",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (718) 555-1681",
+            "activity": [
+              {
+                "id": "dd7d2e03-5055-4efc-86f8-295cda72a9cb",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.650Z"
+              }
+            ],
+            "accountId": "29ac95e6-84bd-457a-b328-cdeb36dacba5",
+            "createdAt": "2026-10-01T17:55:03.649Z",
+            "updatedAt": "2026-10-01T17:55:03.650Z"
+          }
+        }
+      ],
+      [
+        "4c940b78-4f8a-4d8c-aa2c-7e11fa229ad1",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "4c940b78-4f8a-4d8c-aa2c-7e11fa229ad1",
+            "name": "Grace Chen",
+            "role": "Director of Learning",
+            "email": "grace.chen@pinegrove.edu",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "phone": "+1 (819) 555-1718",
+            "activity": [
+              {
+                "id": "9f27b66d-8d5a-46b9-aa6d-fe58f4959069",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.668Z"
+              }
+            ],
+            "accountId": "abcc3d9d-da4e-49b3-9e1c-cbb5500d6288",
+            "createdAt": "2026-10-01T17:55:03.667Z",
+            "updatedAt": "2026-10-01T17:55:03.668Z"
+          }
+        }
+      ],
+      [
+        "f7de8c11-5297-4280-86cd-aedc066640ef",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "f7de8c11-5297-4280-86cd-aedc066640ef",
+            "name": "Isabel Moreno",
+            "role": "Head of Partnerships",
+            "email": "isabel.moreno@silverleaf.energy",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (516) 555-1792",
+            "activity": [
+              {
+                "id": "d334478f-0cfb-41e6-91e6-cfc31adb3d03",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.708Z"
+              }
+            ],
+            "accountId": "8670a058-8da9-4b95-a275-8f23609845ee",
+            "createdAt": "2026-10-01T17:55:03.707Z",
+            "updatedAt": "2026-10-01T17:55:03.708Z"
+          }
+        }
+      ],
+      [
+        "f3da5896-d1bd-4afe-a3b4-a0f5274d8a8c",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "f3da5896-d1bd-4afe-a3b4-a0f5274d8a8c",
+            "name": "Chris Novak",
+            "role": "RevOps Manager",
+            "email": "chris.novak@meridianpayroll.com",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "phone": "+1 (617) 555-1829",
+            "activity": [
+              {
+                "id": "82677dbb-804b-4bfe-a147-81dbe5d091b5",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.727Z"
+              }
+            ],
+            "accountId": "afb49704-2f37-46b4-91cd-3ef44a69fd3b",
+            "createdAt": "2026-10-01T17:55:03.726Z",
+            "updatedAt": "2026-10-01T17:55:03.727Z"
+          }
+        }
+      ],
+      [
+        "78e3a449-4d49-4bd0-9977-12eaaa89bf11",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "78e3a449-4d49-4bd0-9977-12eaaa89bf11",
+            "name": "Lena Fischer",
+            "role": "CEO",
+            "email": "lena.fischer@meridianpayroll.com",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (718) 555-1866",
+            "activity": [
+              {
+                "id": "15745ace-4cb2-4bb0-8270-4f399078fc62",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.747Z"
+              }
+            ],
+            "accountId": "afb49704-2f37-46b4-91cd-3ef44a69fd3b",
+            "createdAt": "2026-10-01T17:55:03.746Z",
+            "updatedAt": "2026-10-01T17:55:03.747Z"
+          }
+        }
+      ],
+      [
+        "8ab1c835-6ce7-41b9-90b8-01b17b292d96",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "8ab1c835-6ce7-41b9-90b8-01b17b292d96",
+            "name": "Ethan Brooks",
+            "role": "Security Engineer",
+            "email": "ethan.brooks@kestrelsec.com",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "phone": "+1 (819) 555-1903",
+            "activity": [
+              {
+                "id": "d4a24ddd-1ef6-466a-b602-05ae9581792a",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.769Z"
+              }
+            ],
+            "accountId": "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+            "createdAt": "2026-10-01T17:55:03.768Z",
+            "updatedAt": "2026-10-01T17:55:03.769Z"
+          }
+        }
+      ],
+      [
+        "132ebafe-2497-4efc-b370-3d35fef90ec1",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "132ebafe-2497-4efc-b370-3d35fef90ec1",
+            "name": "Brightpath — Fleet analytics rollout",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "stage": "proposal",
+            "amount": 96000,
+            "activity": [
+              {
+                "id": "696819ea-6fce-4d97-b09b-4e1074aeb43b",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.819Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Send revised proposal with 3-year option",
+            "accountId": "48bca1de-fc15-4414-93d2-dc01e571c09e",
+            "closeDate": "2026-11-14",
+            "createdAt": "2026-10-01T17:55:03.818Z",
+            "updatedAt": "2026-10-01T17:55:03.819Z",
+            "contactIds": [
+              "8482180c-8401-43b2-b327-d3467c23f0eb"
+            ]
+          }
+        }
+      ],
+      [
+        "a69b6740-d467-4a4e-97bf-da62a75fcc4a",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "a69b6740-d467-4a4e-97bf-da62a75fcc4a",
+            "name": "Quarry Labs — Team plan",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "stage": "won",
+            "amount": 18500,
+            "activity": [
+              {
+                "id": "48b88849-8a73-4d19-b5ec-908645842a58",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.840Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Kickoff scheduled",
+            "accountId": "d3af9352-cfb0-4ae5-8f6a-e8287cad8856",
+            "closeDate": "2026-09-22",
+            "createdAt": "2026-10-01T17:55:03.839Z",
+            "updatedAt": "2026-10-01T17:55:03.840Z",
+            "contactIds": [
+              "b1ff35a7-26bd-4e7c-ac76-5724bbff9fea"
+            ]
+          }
+        }
+      ],
+      [
+        "2edef5ed-c747-4ad6-9a33-d0c04fb564db",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "2edef5ed-c747-4ad6-9a33-d0c04fb564db",
+            "name": "Halcyon — Clinic network pilot",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "stage": "discovery",
+            "amount": 64000,
+            "activity": [
+              {
+                "id": "cd7c5a1f-9b55-4ccb-bf4f-65785d4f0ea5",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.857Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Security questionnaire due next week",
+            "accountId": "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1",
+            "closeDate": "2026-12-05",
+            "createdAt": "2026-10-01T17:55:03.856Z",
+            "updatedAt": "2026-10-01T17:55:03.857Z",
+            "contactIds": [
+              "1af7c8f9-bb7c-4726-bc9d-34e7a059a214",
+              "3b756490-0562-4536-ab22-ccc8fc0f428e"
+            ]
+          }
+        }
+      ],
+      [
+        "e2e9bce0-bb4b-4ad5-b74b-205b9d318651",
+        {
+          "kind": "contacts",
+          "value": {
+            "id": "e2e9bce0-bb4b-4ad5-b74b-205b9d318651",
+            "name": "Owen Patel",
+            "role": "VP Supply Chain",
+            "email": "owen.patel@vantagefreight.com",
+            "notes": [
+              {
+                "id": "7c0291fa-8b86-423e-9df1-880d49d61431",
+                "author": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "content": "Prefers async updates over email. Very data-driven; send numbers, not slides.",
+                "createdAt": "2026-10-01T17:55:04.315Z",
+                "updatedAt": "2026-10-01T17:55:04.315Z"
+              }
+            ],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "phone": "+1 (415) 555-1755",
+            "activity": [
+              {
+                "id": "d4f5798e-1509-40ce-a175-627daf37ee72",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.688Z"
+              },
+              {
+                "id": "6ea11073-ccc5-4f73-942d-c3b2fbc3a777",
+                "type": "note_added",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Note added",
+                "createdAt": "2026-10-01T17:55:04.315Z"
+              }
+            ],
+            "accountId": "ad5f74df-85a5-4b14-8575-05ebece5767d",
+            "createdAt": "2026-10-01T17:55:03.687Z",
+            "updatedAt": "2026-10-01T17:55:04.315Z"
+          }
+        }
+      ],
+      [
+        "bccad768-c9e5-46c8-bc22-014a90b21263",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "bccad768-c9e5-46c8-bc22-014a90b21263",
+            "name": "Tidewater — Compliance add-on",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "stage": "qualification",
+            "amount": 27000,
+            "activity": [
+              {
+                "id": "4183578d-b83e-4a7d-9002-a164c4157971",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.875Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Confirm budget owner",
+            "accountId": "bb8f9b0c-3a99-45ce-a5e4-e4bb01c0f32b",
+            "closeDate": "2026-12-18",
+            "createdAt": "2026-10-01T17:55:03.874Z",
+            "updatedAt": "2026-10-01T17:55:03.875Z",
+            "contactIds": [
+              "29c2d992-c4cf-4dbc-939d-c1fb6d3f73f0"
+            ]
+          }
+        }
+      ],
+      [
+        "d4698fa2-a8f1-4333-98a9-03165a58852c",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "d4698fa2-a8f1-4333-98a9-03165a58852c",
+            "name": "Orbitline — Usage-based expansion",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "stage": "proposal",
+            "amount": 72500,
+            "activity": [
+              {
+                "id": "a42bdc49-6a37-4889-95a5-50ca4e2f5d18",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.894Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Pricing review with finance",
+            "accountId": "22383573-7942-4bb8-bd4a-ad5e3faed5f0",
+            "closeDate": "2026-11-03",
+            "createdAt": "2026-10-01T17:55:03.893Z",
+            "updatedAt": "2026-10-01T17:55:03.894Z",
+            "contactIds": [
+              "5a782d76-db12-450a-a1b0-e276127538b4",
+              "b68eaf2e-be1f-428b-8c60-968f0f12cd38"
+            ]
+          }
+        }
+      ],
+      [
+        "089f148b-5a4d-4bb7-9594-a180c549566b",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "089f148b-5a4d-4bb7-9594-a180c549566b",
+            "name": "Kestrel — SOC tooling",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "stage": "discovery",
+            "amount": 58000,
+            "activity": [
+              {
+                "id": "1eb58f20-502d-4769-a8f9-498b92c6ce80",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.940Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Technical deep-dive with security team",
+            "accountId": "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+            "closeDate": "2026-11-21",
+            "createdAt": "2026-10-01T17:55:03.939Z",
+            "updatedAt": "2026-10-01T17:55:03.940Z",
+            "contactIds": [
+              "9b8e2a95-aa29-4eb7-b42c-5f91004b253f"
+            ]
+          }
+        }
+      ],
+      [
+        "cd3d6699-4be6-4cfb-8419-805b55ec05ce",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "cd3d6699-4be6-4cfb-8419-805b55ec05ce",
+            "name": "Northbeam — Starter annual",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "stage": "won",
+            "amount": 9600,
+            "activity": [
+              {
+                "id": "c925426f-8a28-4ab0-9475-93dc14537d41",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.971Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Onboarding in progress",
+            "accountId": "29ac95e6-84bd-457a-b328-cdeb36dacba5",
+            "closeDate": "2026-09-15",
+            "createdAt": "2026-10-01T17:55:03.970Z",
+            "updatedAt": "2026-10-01T17:55:03.971Z",
+            "contactIds": [
+              "ff3f2a24-cd79-4b78-a023-47982c0bec53"
+            ]
+          }
+        }
+      ],
+      [
+        "35ce47a7-6be1-423a-9536-2204bf4e7ef9",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "35ce47a7-6be1-423a-9536-2204bf4e7ef9",
+            "name": "Pinegrove — District licenses",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "stage": "qualification",
+            "amount": 34000,
+            "activity": [
+              {
+                "id": "451f95dd-0281-49ce-8aad-37da145a84bc",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.998Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Intro call booked",
+            "accountId": "abcc3d9d-da4e-49b3-9e1c-cbb5500d6288",
+            "closeDate": "2027-01-15",
+            "createdAt": "2026-10-01T17:55:03.997Z",
+            "updatedAt": "2026-10-01T17:55:03.998Z",
+            "contactIds": [
+              "4c940b78-4f8a-4d8c-aa2c-7e11fa229ad1"
+            ]
+          }
+        }
+      ],
+      [
+        "97796a25-d5bf-486a-957f-75bbe6a55ff7",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "97796a25-d5bf-486a-957f-75bbe6a55ff7",
+            "name": "Vantage — Route optimization",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "stage": "proposal",
+            "amount": 124000,
+            "activity": [
+              {
+                "id": "5c602b1e-4da3-4136-8746-3187d29cf2af",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.019Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "ROI model shared, awaiting feedback",
+            "accountId": "ad5f74df-85a5-4b14-8575-05ebece5767d",
+            "closeDate": "2026-11-10",
+            "createdAt": "2026-10-01T17:55:04.018Z",
+            "updatedAt": "2026-10-01T17:55:04.019Z",
+            "contactIds": [
+              "e2e9bce0-bb4b-4ad5-b74b-205b9d318651"
+            ]
+          }
+        }
+      ],
+      [
+        "1cb3d3c6-11dc-4a93-9ab6-accec61a81a0",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "1cb3d3c6-11dc-4a93-9ab6-accec61a81a0",
+            "name": "Silverleaf — Partner integration",
+            "notes": [],
+            "owner": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "stage": "lost",
+            "amount": 41000,
+            "activity": [
+              {
+                "id": "d08ed572-e00a-4a8d-8bcc-06c47b966d3b",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.039Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Went with in-house build",
+            "accountId": "8670a058-8da9-4b95-a275-8f23609845ee",
+            "closeDate": "2026-09-05",
+            "createdAt": "2026-10-01T17:55:04.038Z",
+            "updatedAt": "2026-10-01T17:55:04.039Z",
+            "contactIds": [
+              "f7de8c11-5297-4280-86cd-aedc066640ef"
+            ]
+          }
+        }
+      ],
+      [
+        "89b0b42a-cf15-45fa-9c28-1f105fba3e8b",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "89b0b42a-cf15-45fa-9c28-1f105fba3e8b",
+            "name": "Meridian — Payroll sync",
+            "notes": [],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "stage": "discovery",
+            "amount": 46000,
+            "activity": [
+              {
+                "id": "4260e592-194c-4e17-b5c5-04da2e97219c",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.059Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Map current RevOps stack",
+            "accountId": "afb49704-2f37-46b4-91cd-3ef44a69fd3b",
+            "closeDate": "2026-11-28",
+            "createdAt": "2026-10-01T17:55:04.058Z",
+            "updatedAt": "2026-10-01T17:55:04.059Z",
+            "contactIds": [
+              "f3da5896-d1bd-4afe-a3b4-a0f5274d8a8c",
+              "78e3a449-4d49-4bd0-9977-12eaaa89bf11"
+            ]
+          }
+        }
+      ],
+      [
+        "07124f43-48a2-4131-8b32-8a1d14819cc2",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "07124f43-48a2-4131-8b32-8a1d14819cc2",
+            "name": "Lumenfield — Data residency (EU)",
+            "notes": [],
+            "owner": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "stage": "qualification",
+            "amount": 38000,
+            "activity": [
+              {
+                "id": "d2d0cd68-3dac-40b1-89fd-5276c3af6f4d",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.077Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Scope EU hosting requirements",
+            "accountId": "56e0f039-9b38-4d2e-8583-580cde768b64",
+            "closeDate": "2027-01-30",
+            "createdAt": "2026-10-01T17:55:04.076Z",
+            "updatedAt": "2026-10-01T17:55:04.077Z",
+            "contactIds": [
+              "7bcb30c3-a77c-4469-8905-1285c857b343"
+            ]
+          }
+        }
+      ],
+      [
+        "f8a6d448-0d9b-44c3-8952-0d78e4bd097d",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "f8a6d448-0d9b-44c3-8952-0d78e4bd097d",
+            "notes": [],
+            "title": "Send redlined DPA to Lumenfield legal",
+            "status": "in_progress",
+            "dueDate": "2026-10-02",
+            "activity": [
+              {
+                "id": "b08d63bf-9c3b-4f1b-b8c5-08d32b673f0d",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.097Z"
+              }
+            ],
+            "assignee": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "createdAt": "2026-10-01T17:55:04.096Z",
+            "updatedAt": "2026-10-01T17:55:04.097Z",
+            "relatedRecords": [
+              {
+                "id": "148ff78a-294e-4175-903b-6d44aa96ff67",
+                "type": "opportunities"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "3486d24d-49af-466f-8f75-902c05e3f81d",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "3486d24d-49af-466f-8f75-902c05e3f81d",
+            "notes": [],
+            "title": "Prep pricing call with Cedarstone procurement",
+            "status": "open",
+            "dueDate": "2026-10-03",
+            "activity": [
+              {
+                "id": "c242eb4f-e53c-4a4b-917a-9d580a07565b",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.116Z"
+              }
+            ],
+            "assignee": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "createdAt": "2026-10-01T17:55:04.115Z",
+            "updatedAt": "2026-10-01T17:55:04.116Z",
+            "relatedRecords": [
+              {
+                "id": "d2276825-243d-487f-ad75-09a8d9263e46",
+                "type": "opportunities"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "e718180e-85c5-4851-82b6-fe8405968d53",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "e718180e-85c5-4851-82b6-fe8405968d53",
+            "notes": [],
+            "title": "Revise Brightpath proposal (3-year option)",
+            "status": "open",
+            "dueDate": "2026-10-06",
+            "activity": [
+              {
+                "id": "e2c492b0-1fec-40ce-a806-45497c965c6e",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.135Z"
+              }
+            ],
+            "assignee": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "createdAt": "2026-10-01T17:55:04.134Z",
+            "updatedAt": "2026-10-01T17:55:04.135Z",
+            "relatedRecords": [
+              {
+                "id": "132ebafe-2497-4efc-b370-3d35fef90ec1",
+                "type": "opportunities"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "ec73301c-1288-4db9-a26c-f8ee61bbeb8e",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "ec73301c-1288-4db9-a26c-f8ee61bbeb8e",
+            "notes": [],
+            "title": "Complete Halcyon security questionnaire",
+            "status": "open",
+            "dueDate": "2026-10-08",
+            "activity": [
+              {
+                "id": "a9f00a62-d889-4269-9b8a-87d5ba1ee5ea",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.154Z"
+              }
+            ],
+            "assignee": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "createdAt": "2026-10-01T17:55:04.153Z",
+            "updatedAt": "2026-10-01T17:55:04.154Z",
+            "relatedRecords": [
+              {
+                "id": "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1",
+                "type": "accounts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "b93832b8-8cfb-4be3-9f27-300ed3bf6743",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "b93832b8-8cfb-4be3-9f27-300ed3bf6743",
+            "notes": [],
+            "title": "Follow up with Owen on ROI model",
+            "status": "open",
+            "dueDate": "2026-10-01",
+            "activity": [
+              {
+                "id": "450d4a2c-aed1-4f8d-88f1-720651e5c9f4",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.173Z"
+              }
+            ],
+            "assignee": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "createdAt": "2026-10-01T17:55:04.172Z",
+            "updatedAt": "2026-10-01T17:55:04.173Z",
+            "relatedRecords": [
+              {
+                "id": "e2e9bce0-bb4b-4ad5-b74b-205b9d318651",
+                "type": "contacts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "879daaa0-43b9-4bd4-b7cd-fee481cb2b2f",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "879daaa0-43b9-4bd4-b7cd-fee481cb2b2f",
+            "notes": [],
+            "title": "Book technical deep-dive with Kestrel",
+            "status": "in_progress",
+            "dueDate": "2026-10-07",
+            "activity": [
+              {
+                "id": "bd35d789-6b1c-4299-ac6a-8fd4283b3d7f",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.190Z"
+              }
+            ],
+            "assignee": {
+              "id": "13c9049c-460f-4183-a03b-ce57b28ef55a",
+              "name": "Sofia Nguyen"
+            },
+            "createdAt": "2026-10-01T17:55:04.189Z",
+            "updatedAt": "2026-10-01T17:55:04.190Z",
+            "relatedRecords": [
+              {
+                "id": "af5ef57d-8ff6-4748-8ee1-0b5bb308d23a",
+                "type": "accounts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "77d9e2a0-4b7a-4b73-8915-2c418cecb128",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "77d9e2a0-4b7a-4b73-8915-2c418cecb128",
+            "notes": [],
+            "title": "Schedule Quarry Labs kickoff",
+            "status": "completed",
+            "dueDate": "2026-09-28",
+            "activity": [
+              {
+                "id": "513325ea-72f0-46f1-a3c6-3a4cb14c093f",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.208Z"
+              }
+            ],
+            "assignee": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "createdAt": "2026-10-01T17:55:04.207Z",
+            "updatedAt": "2026-10-01T17:55:04.208Z",
+            "relatedRecords": [
+              {
+                "id": "d3af9352-cfb0-4ae5-8f6a-e8287cad8856",
+                "type": "accounts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "f0160760-f7b4-4eea-80c6-8c33695e16f4",
+        {
+          "kind": "tasks",
+          "value": {
+            "id": "f0160760-f7b4-4eea-80c6-8c33695e16f4",
+            "notes": [],
+            "title": "Intro call with Pinegrove",
+            "status": "open",
+            "dueDate": "2026-10-09",
+            "activity": [
+              {
+                "id": "4c9347e7-d257-4012-ad0c-a64af931ad13",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:04.226Z"
+              }
+            ],
+            "assignee": {
+              "id": "76aed3b8-9e82-43e8-9191-87814628d1ad",
+              "name": "Jamie Rivera"
+            },
+            "createdAt": "2026-10-01T17:55:04.225Z",
+            "updatedAt": "2026-10-01T17:55:04.226Z",
+            "relatedRecords": [
+              {
+                "id": "4c940b78-4f8a-4d8c-aa2c-7e11fa229ad1",
+                "type": "contacts"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "148ff78a-294e-4175-903b-6d44aa96ff67",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "148ff78a-294e-4175-903b-6d44aa96ff67",
+            "name": "Lumenfield — Enterprise platform",
+            "notes": [
+              {
+                "id": "3eb80b5b-f414-40f9-b320-7384089b02db",
+                "author": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "content": "Priya confirmed budget is approved for FY27. Main open item is the DPA — their legal wants a 30-day breach notice window. Daniel is the technical champion and wants SSO + SCIM on day one.",
+                "createdAt": "2026-10-01T17:55:04.245Z",
+                "updatedAt": "2026-10-01T17:55:04.245Z"
+              },
+              {
+                "id": "56524bae-a502-4821-a6ce-4b99bd685cf5",
+                "author": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "content": "Pricing call recap: they're comparing us with two other vendors. We're ahead on onboarding speed. Holding at list price with a 2-year lock.",
+                "createdAt": "2026-10-01T17:55:04.263Z",
+                "updatedAt": "2026-10-01T17:55:04.263Z"
+              }
+            ],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "stage": "negotiation",
+            "amount": 148000,
+            "activity": [
+              {
+                "id": "3e991352-2d47-4b51-bc3d-279c61a76694",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.795Z"
+              },
+              {
+                "id": "ab78dfdc-2527-4b9d-8e24-8bbdc200766f",
+                "type": "note_added",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Note added",
+                "createdAt": "2026-10-01T17:55:04.245Z"
+              },
+              {
+                "id": "755d5297-8426-43bd-a867-9810d0c4e8db",
+                "type": "note_added",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Note added",
+                "createdAt": "2026-10-01T17:55:04.263Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Legal redlines on DPA; final pricing call Thursday",
+            "accountId": "56e0f039-9b38-4d2e-8583-580cde768b64",
+            "closeDate": "2026-10-24",
+            "createdAt": "2026-10-01T17:55:03.794Z",
+            "updatedAt": "2026-10-01T17:55:04.263Z",
+            "contactIds": [
+              "bc746029-7396-4c88-96dd-174b21f43ccd",
+              "7bcb30c3-a77c-4469-8905-1285c857b343"
+            ]
+          }
+        }
+      ],
+      [
+        "d2276825-243d-487f-ad75-09a8d9263e46",
+        {
+          "kind": "opportunities",
+          "value": {
+            "id": "d2276825-243d-487f-ad75-09a8d9263e46",
+            "name": "Cedarstone — Omnichannel suite",
+            "notes": [
+              {
+                "id": "8d70bf09-3eca-4674-8df3-8b7517e1f760",
+                "author": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "content": "Tom is pushing for a Q4 go-live ahead of holiday season. Rachel (procurement) asked for net-60 terms and a volume tier above 1,500 seats.",
+                "createdAt": "2026-10-01T17:55:04.277Z",
+                "updatedAt": "2026-10-01T17:55:04.277Z"
+              }
+            ],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "stage": "negotiation",
+            "amount": 215000,
+            "activity": [
+              {
+                "id": "de6966a3-cae5-4e5d-a665-cbb70fedacbc",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.919Z"
+              },
+              {
+                "id": "754c96fe-fa67-47c1-945b-2870717fa765",
+                "type": "note_added",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Note added",
+                "createdAt": "2026-10-01T17:55:04.277Z"
+              }
+            ],
+            "currency": "USD",
+            "nextStep": "Procurement wants net-60 terms",
+            "accountId": "b3f3ca19-7f88-4982-a41d-858a04d08674",
+            "closeDate": "2026-10-30",
+            "createdAt": "2026-10-01T17:55:03.918Z",
+            "updatedAt": "2026-10-01T17:55:04.277Z",
+            "contactIds": [
+              "fa85800e-9ae2-48f0-a660-ba59756ed317",
+              "34b0932a-e3ff-4dbf-9eb9-e7aeef83174e"
+            ]
+          }
+        }
+      ],
+      [
+        "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "bdd9bd2b-d7e8-49b9-9a64-bc9867af26a1",
+            "name": "Halcyon Health",
+            "notes": [
+              {
+                "id": "6c48256b-b6a3-4546-857d-60866bbb36fe",
+                "author": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "content": "HIPAA BAA required. Marcus owns the security review; expect ~2 weeks turnaround.",
+                "createdAt": "2026-10-01T17:55:04.290Z",
+                "updatedAt": "2026-10-01T17:55:04.290Z"
+              }
+            ],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "revenue": 76000000,
+            "twitter": "",
+            "website": "https://halcyonhealth.com",
+            "activity": [
+              {
+                "id": "066be25a-b337-4d1b-ad2a-cf16f63d316b",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.190Z"
+              },
+              {
+                "id": "c2e1d9f0-3dcf-4e46-8a83-37b51e39a8ba",
+                "type": "note_added",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Note added",
+                "createdAt": "2026-10-01T17:55:04.290Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Healthcare",
+            "linkedin": "https://www.linkedin.com/company/halcyonhealth",
+            "location": "Boston, MA",
+            "createdAt": "2026-10-01T17:55:03.189Z",
+            "headcount": 540,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:04.290Z"
+          }
+        }
+      ],
+      [
+        "56e0f039-9b38-4d2e-8583-580cde768b64",
+        {
+          "kind": "accounts",
+          "value": {
+            "id": "56e0f039-9b38-4d2e-8583-580cde768b64",
+            "name": "Lumenfield",
+            "notes": [
+              {
+                "id": "1d8f97ce-27fa-4503-88b0-0c5a5a8532a0",
+                "author": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "content": "Strategic account — expansion potential into their EU entity in 2027.",
+                "createdAt": "2026-10-01T17:55:04.302Z",
+                "updatedAt": "2026-10-01T17:55:04.302Z"
+              }
+            ],
+            "owner": {
+              "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+              "name": "Alex Morgan"
+            },
+            "revenue": 48000000,
+            "twitter": "",
+            "website": "https://lumenfield.io",
+            "activity": [
+              {
+                "id": "1a05be13-d5c4-42a4-84d2-ac0dee1ee291",
+                "type": "created",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Record created",
+                "createdAt": "2026-10-01T17:55:03.124Z"
+              },
+              {
+                "id": "02c00b03-70b0-455b-aaec-7fd21c78c106",
+                "type": "note_added",
+                "actor": {
+                  "id": "6c7138af-bc42-4530-bc96-ff7255759a65",
+                  "name": "Alex Morgan"
+                },
+                "summary": "Note added",
+                "createdAt": "2026-10-01T17:55:04.302Z"
+              }
+            ],
+            "facebook": "",
+            "industry": "Analytics",
+            "linkedin": "https://www.linkedin.com/company/lumenfield",
+            "location": "San Francisco, CA",
+            "createdAt": "2026-10-01T17:55:03.123Z",
+            "headcount": 320,
+            "instagram": "",
+            "updatedAt": "2026-10-01T17:55:04.302Z"
+          }
+        }
+      ],
+      [
+        "652d1706-5a30-42d4-aea8-208df9c6f266",
+        {
+          "kind": "conversations",
+          "value": {
+            "id": "652d1706-5a30-42d4-aea8-208df9c6f266",
+            "title": "Q4 late-stage pipeline review",
+            "access": "owner",
+            "createdAt": "2026-10-01T17:56:38.669Z",
+            "updatedAt": "2026-10-01T17:57:06.316Z"
+          }
+        }
+      ]
+    ],
+    "messages": [
+      [
+        "e158b5ab-ac45-436b-b7ac-27e359449a78",
+        {
+          "id": "e158b5ab-ac45-436b-b7ac-27e359449a78",
+          "role": "user",
+          "blocks": [
+            {
+              "text": "Which late-stage deals close before mid-November, and what's blocking each one? Flag anything risky on ",
+              "type": "text"
+            },
+            {
+              "type": "mention",
+              "label": "Cedarstone — Omnichannel suite",
+              "reference": {
+                "id": "d2276825-243d-487f-ad75-09a8d9263e46",
+                "type": "opportunities"
+              }
+            }
+          ],
+          "isDemo": false,
+          "status": "final",
+          "sequence": 1,
+          "createdAt": "2026-10-01T17:56:38.708Z",
+          "updatedAt": "2026-10-01T17:57:06.282Z",
+          "conversationId": "652d1706-5a30-42d4-aea8-208df9c6f266"
+        }
+      ],
+      [
+        "a391e8f4-5699-423b-a019-05640a8ffed2",
+        {
+          "id": "a391e8f4-5699-423b-a019-05640a8ffed2",
+          "role": "assistant",
+          "blocks": [
+            {
+              "text": "You have **5 deals** in Proposal or Negotiation closing by Nov 14 — **$655,500** in total. Two are in Negotiation and account for 55% of that.",
+              "type": "text"
+            },
+            {
+              "rows": [
+                [
+                  "Cedarstone — Omnichannel suite",
+                  "Negotiation",
+                  "$215,000",
+                  "Oct 30",
+                  "Procurement wants net-60 terms"
+                ],
+                [
+                  "Lumenfield — Enterprise platform",
+                  "Negotiation",
+                  "$148,000",
+                  "Oct 24",
+                  "DPA redlines with legal"
+                ],
+                [
+                  "Vantage — Route optimization",
+                  "Proposal",
+                  "$124,000",
+                  "Nov 10",
+                  "Waiting on ROI model feedback"
+                ],
+                [
+                  "Brightpath — Fleet analytics rollout",
+                  "Proposal",
+                  "$96,000",
+                  "Nov 14",
+                  "Revised 3-year proposal not sent"
+                ],
+                [
+                  "Orbitline — Usage-based expansion",
+                  "Proposal",
+                  "$72,500",
+                  "Nov 3",
+                  "Pricing review with finance"
+                ]
+              ],
+              "type": "table",
+              "columns": [
+                "Opportunity",
+                "Stage",
+                "Amount",
+                "Close date",
+                "Blocker"
+              ]
+            },
+            {
+              "text": "**Cedarstone** is the biggest risk: Tom wants a Q4 go-live, but Rachel in procurement is holding on net-60 terms and a volume tier above 1,500 seats. I'd offer net-45 with a 2-year price lock and get the pricing call on the calendar this week.\n\nDeals to push this week:",
+              "type": "text"
+            },
+            {
+              "type": "records",
+              "records": [
+                {
+                  "id": "d2276825-243d-487f-ad75-09a8d9263e46",
+                  "type": "opportunities"
+                },
+                {
+                  "id": "148ff78a-294e-4175-903b-6d44aa96ff67",
+                  "type": "opportunities"
+                },
+                {
+                  "id": "97796a25-d5bf-486a-957f-75bbe6a55ff7",
+                  "type": "opportunities"
+                }
+              ]
+            }
+          ],
+          "isDemo": false,
+          "status": "final",
+          "sequence": 2,
+          "createdAt": "2026-10-01T17:56:38.738Z",
+          "updatedAt": "2026-10-01T17:57:06.316Z",
+          "conversationId": "652d1706-5a30-42d4-aea8-208df9c6f266"
+        }
+      ]
+    ],
+    "conversationShares": [],
+    "assistantGenerations": [],
+    "chatMutationReceipts": []
+  }
+}

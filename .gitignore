@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production Builds & TypeScript Caches
+dist/
+build/
+*.tsbuildinfo
+
+# Environment & Sensitive Keys
+.env
+.env.*
+!.env.example
+*.local
+
+# System & Agent Tooling Scratch
+.DS_Store
+Thumbs.db
+*.pem
+.vscode/
+.idea/
+.agent/
+.agents/
+.uix/
+
+# Scratch & Extraction Artifacts
+*.cjs
+initial_user_prompt.txt
+inspection_ref/
+2e445.css
+2voh1.css
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

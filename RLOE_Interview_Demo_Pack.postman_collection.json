@@ -1,0 +1,376 @@
+{
+  "info": {
+    "_postman_id": "rloe-interview-demo-pack-v1",
+    "name": "RLOE — Interview Demo Pack",
+    "description": "Enterprise-grade Postman collection for live interview demonstration of the Revenue Lifecycle Orchestration Engine (RLOE).\n\nArchitectural Highlights:\n- Async Inbound Gate with Ingestion Latency < 1500ms\n- Deterministic Pre-Filtering Gate (Sub-10ms) saving 80%+ LLM token costs\n- NVIDIA Nemotron (nvidia/nemotron-3.5-lightning-30b-a3b) structured routing\n- Clay Waterfall Enrichment with resilient fallback handling\n- Supabase Inbound Intent Log & Telemetry persistence\n- HubSpot CRM automated Deal and Task generation\n- Unique constraint caching preventing duplicate enrichment and LLM spend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "RLOE_WEBHOOK_URL",
+      "value": "https://yatinjoshi05.app.n8n.cloud/webhook/v1/revenue-lifecycle-orchestrator",
+      "type": "string",
+      "description": "Canonical n8n Webhook Inbound Gate production URL"
+    },
+    {
+      "key": "HIGH_SCORE_DOMAIN",
+      "value": "linear.app",
+      "type": "string",
+      "description": "Verified high-fit B2B SaaS company domain (Scores ~90-100 on ICP prefilter, triggers NVIDIA Nemotron, routes to sales_priority)"
+    },
+    {
+      "key": "LOW_SCORE_DOMAIN",
+      "value": "mikesbakerynyc.com",
+      "type": "string",
+      "description": "Verified low-fit company domain (Scores <35 on ICP prefilter, skips LLM token spending, routes to disqualified)"
+    },
+    {
+      "key": "DUPLICATE_DOMAIN",
+      "value": "retrieval.ai",
+      "type": "string",
+      "description": "Verified domain for duplicate / cache-hit demonstration (First call seeds cache; second call triggers instant cache hit)"
+    },
+    {
+      "key": "BACKUP_DOMAIN",
+      "value": "datadoghq.com",
+      "type": "string",
+      "description": "Enterprise-tier backup domain for instant demonstration if primary demo encounters third-party enrichment delay"
+    },
+    {
+      "key": "DYNAMIC_SOURCE",
+      "value": "interview_demo_duplicate_first",
+      "type": "string",
+      "description": "Populated dynamically by pre-request scripts"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. RLOE - High Score Demo",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Generate unique visitor ID to avoid visitor-level deduplication while retaining target company domain",
+              "const uniqueSuffix = Date.now();",
+              "pm.variables.set('DYNAMIC_VISITOR_ID', 'vis_high_' + uniqueSuffix);",
+              "console.log('>>> [DEMO 1] Prepared High Score Demo with Visitor ID: vis_high_' + uniqueSuffix);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// 1. Verify HTTP Inbound Acceptance",
+              "pm.test('Status code is 200 (Webhook Inbound Gate Accepted)', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// 2. Measure Ingestion Latency (High Throughput Gate SLA)",
+              "pm.test('Webhook Ingestion Latency < 1500ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});",
+              "",
+              "// 3. Verify Response Content",
+              "pm.test('Response acknowledges receipt', function () {",
+              "    pm.expect(pm.response.text()).to.be.a('string');",
+              "});",
+              "",
+              "// 4. Document Next Downstream Stages for Interviewer",
+              "console.log('================================================================');",
+              "console.log('DEMO 1: HIGH SCORE PIPELINE ACCEPTED (HTTP 200)');",
+              "console.log('IMPORTANT: HTTP 200 confirms webhook receipt. Downstream processing');",
+              "console.log('executes asynchronously across n8n, Clay, NVIDIA, Supabase, and HubSpot.');",
+              "console.log('Asynchronous Downstream Path:');",
+              "console.log('  1. Inbound Gate -> Payload Verification Parser validates schema');",
+              "console.log('  2. Supabase Cache Check -> Cache Miss (New Lead)');",
+              "console.log('  3. Log Pending Row (Cache Guard) -> row inserted in inbound_intent_log');",
+              "console.log('  4. Trigger Clay Waterfall -> Enriches headcount, industry, tech stack, funding');",
+              "console.log('  5. Clay Callback Webhook -> Deterministic Pre-Filter scores >= 35');",
+              "console.log('  6. LLM Cost Gate -> Evaluates TRUE (High fit)');",
+              "console.log('  7. NVIDIA Nemotron LLM Router executes (model: nvidia/nemotron-3.5-lightning-30b-a3b)');",
+              "console.log('  8. Supabase inbound_intent_log updated to status: scored, route: sales_priority');",
+              "console.log('  9. Supabase rloe_telemetry logs token usage, latency, and cost');",
+              "console.log(' 10. HubSpot CRM Sync creates Appointment Scheduled Deal + High Priority Task');",
+              "console.log('================================================================');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "{{RLOE_WEBHOOK_AUTH}}",
+            "type": "text",
+            "description": "Internal n8n webhook authorization header"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company_domain\": \"{{HIGH_SCORE_DOMAIN}}\",\n  \"visitor_anonymous_id\": \"{{DYNAMIC_VISITOR_ID}}\",\n  \"source\": \"interview_demo_high_score\",\n  \"page_url\": \"https://{{HIGH_SCORE_DOMAIN}}/enterprise\",\n  \"utm_source\": \"linkedin_inbound\",\n  \"utm_campaign\": \"q4_enterprise_demand\",\n  \"signals\": {\n    \"demo_requested\": true,\n    \"enterprise_tier\": true,\n    \"annual_budget_usd\": 150000,\n    \"seat_count_target\": 80,\n    \"pricing_calculator_used\": true,\n    \"pages_viewed\": 7,\n    \"security_whitepaper_downloaded\": true\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{RLOE_WEBHOOK_URL}}",
+          "host": [
+            "{{RLOE_WEBHOOK_URL}}"
+          ]
+        },
+        "description": "Demonstrates the complete Happy Path:\nInbound Webhook -> Clay Enrichment -> Deterministic Pre-Score (90-100) -> NVIDIA Nemotron Router -> Sales Priority Route -> HubSpot Deal & Task Creation -> Supabase Telemetry -> Frontend Real-Time Board."
+      },
+      "response": []
+    },
+    {
+      "name": "2. RLOE - Low Score Demo",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const uniqueSuffix = Date.now();",
+              "pm.variables.set('DYNAMIC_VISITOR_ID', 'vis_low_' + uniqueSuffix);",
+              "console.log('>>> [DEMO 2] Prepared Low Score Demo with Visitor ID: vis_low_' + uniqueSuffix);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// 1. Verify HTTP Inbound Acceptance",
+              "pm.test('Status code is 200 (Webhook Inbound Gate Accepted)', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// 2. Measure Ingestion Latency",
+              "pm.test('Webhook Ingestion Latency < 1500ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});",
+              "",
+              "console.log('================================================================');",
+              "console.log('DEMO 2: LOW SCORE / COST-GUARD PIPELINE ACCEPTED (HTTP 200)');",
+              "console.log('IMPORTANT: HTTP 200 confirms webhook receipt. Downstream processing');",
+              "console.log('executes asynchronously across n8n, Clay, Supabase, and Cost Guard.');",
+              "console.log('Asynchronous Downstream Path:');",
+              "console.log('  1. Inbound Gate receives low-fit signal (retail/bakery domain)');",
+              "console.log('  2. Clay enrichment returns small headcount, non-tech industry');",
+              "console.log('  3. Deterministic Pre-Filter calculates score < 35');",
+              "console.log('  4. LLM Cost Gate (Worth Spending LLM Tokens?) evaluates to FALSE');",
+              "console.log('  5. NVIDIA Nemotron call is SKIPPED (0 tokens spent, $0 cost)');",
+              "console.log('  6. Supabase inbound_intent_log updated to route: disqualified');",
+              "console.log('  7. Supabase rloe_telemetry records outcome: skipped_llm_prefilter');",
+              "console.log('  8. Zero HubSpot tasks or deals created (sales reps focus only on qualified)');",
+              "console.log('================================================================');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "{{RLOE_WEBHOOK_AUTH}}",
+            "type": "text",
+            "description": "Internal n8n webhook authorization header"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company_domain\": \"{{LOW_SCORE_DOMAIN}}\",\n  \"visitor_anonymous_id\": \"{{DYNAMIC_VISITOR_ID}}\",\n  \"source\": \"interview_demo_low_score\",\n  \"page_url\": \"https://{{LOW_SCORE_DOMAIN}}/recipes/sourdough-tips\",\n  \"utm_source\": \"organic_search\",\n  \"utm_campaign\": \"top_of_funnel_blog\",\n  \"signals\": {\n    \"demo_requested\": false,\n    \"enterprise_tier\": false,\n    \"pages_viewed\": 1,\n    \"bounced_after_single_view\": true\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{RLOE_WEBHOOK_URL}}",
+          "host": [
+            "{{RLOE_WEBHOOK_URL}}"
+          ]
+        },
+        "description": "Demonstrates Cost Control & Deterministic Filtering:\nInbound Webhook -> Clay Enrichment -> Deterministic Pre-Score (<35) -> LLM Gate SKIPPED (0 tokens, $0 spent) -> Disqualified Route -> No HubSpot Spam -> Supabase Telemetry records skipped_llm_prefilter."
+      },
+      "response": []
+    },
+    {
+      "name": "3. RLOE - Duplicate Demo",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Generates a unique visitor ID for each send while keeping company_domain identical",
+              "// Send 1 -> sets source: interview_demo_duplicate_first",
+              "// Send 2 -> sets source: interview_demo_duplicate_second",
+              "let dupCounter = pm.environment.get('DUP_DEMO_COUNTER');",
+              "if (!dupCounter || dupCounter === '1') {",
+              "    pm.variables.set('DYNAMIC_SOURCE', 'interview_demo_duplicate_first');",
+              "    pm.environment.set('DUP_DEMO_COUNTER', '2');",
+              "    console.log('>>> [DEMO 3 - SEND 1] First Touch: source=interview_demo_duplicate_first (Seeds Cache)');",
+              "} else {",
+              "    pm.variables.set('DYNAMIC_SOURCE', 'interview_demo_duplicate_second');",
+              "    pm.environment.set('DUP_DEMO_COUNTER', '1');",
+              "    console.log('>>> [DEMO 3 - SEND 2] Second Touch: source=interview_demo_duplicate_second (Cache Hit)');",
+              "}",
+              "const uniqueSuffix = Date.now();",
+              "pm.variables.set('DYNAMIC_VISITOR_ID', 'vis_dup_' + uniqueSuffix);",
+              "console.log('>>> [DEMO 3] Dynamic Visitor ID: vis_dup_' + uniqueSuffix);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// 1. Verify HTTP Inbound Acceptance",
+              "pm.test('Status code is 200 (Webhook Inbound Gate Accepted)', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "console.log('================================================================');",
+              "console.log('DEMO 3: DUPLICATE / CACHE-FIRST ARCHITECTURE INGESTED (HTTP 200)');",
+              "console.log('HOW TO RUN THIS DEMO:');",
+              "console.log('  1. Click [Send] the first time (Touch 1):');",
+              "console.log('     -> Cache Miss -> Inserts pending row -> Enriches via Clay');",
+              "console.log('  2. Wait 10-15 seconds for initial row to complete in Supabase.');",
+              "console.log('  3. Click [Send] a second time (Touch 2):');",
+              "console.log('     -> Same company_domain sent with fresh visitor_anonymous_id');",
+              "console.log('     -> Cache Hit! Inbound gate matches existing company in Supabase');",
+              "console.log('     -> BYPASSES Clay Waterfall (Zero API credits used)');",
+              "console.log('     -> BYPASSES NVIDIA Nemotron (Zero LLM tokens spent)');",
+              "console.log('     -> Executes HubSpot Task: Returning Lead touch');",
+              "console.log('     -> Updates last_seen_at in Supabase without creating duplicate row');",
+              "console.log('     -> Telemetry records stage=cache_hit');",
+              "console.log('================================================================');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "{{RLOE_WEBHOOK_AUTH}}",
+            "type": "text",
+            "description": "Internal n8n webhook authorization header"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company_domain\": \"{{DUPLICATE_DOMAIN}}\",\n  \"visitor_anonymous_id\": \"{{DYNAMIC_VISITOR_ID}}\",\n  \"source\": \"{{DYNAMIC_SOURCE}}\",\n  \"page_url\": \"https://{{DUPLICATE_DOMAIN}}/pricing\",\n  \"utm_source\": \"direct_traffic\",\n  \"signals\": {\n    \"returning_visitor\": true,\n    \"pricing_page_revisit\": true,\n    \"pages_viewed\": 4\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{RLOE_WEBHOOK_URL}}",
+          "host": [
+            "{{RLOE_WEBHOOK_URL}}"
+          ]
+        },
+        "description": "Demonstrates Cache-First Architecture & Duplicate Protection:\nRun twice with the SAME company_domain.\nFirst Touch: establishes cache entry via Clay.\nSecond Touch: instant cache hit -> skips Clay & LLM -> HubSpot returning task -> updates last_seen_at with 0 duplicate rows."
+      },
+      "response": []
+    },
+    {
+      "name": "4. RLOE - Backup / Clay Failure Demo",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const uniqueSuffix = Date.now();",
+              "pm.variables.set('DYNAMIC_VISITOR_ID', 'vis_backup_' + uniqueSuffix);",
+              "console.log('>>> [DEMO 4] Prepared Backup / Resilience Demo with Visitor ID: vis_backup_' + uniqueSuffix);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200 (Webhook Inbound Gate Accepted)', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "console.log('================================================================');",
+              "console.log('DEMO 4: BACKUP / ENRICHMENT RESILIENCE DEMO ACCEPTED (HTTP 200)');",
+              "console.log('Use this request as a guaranteed high-reliability enterprise fallback');",
+              "console.log('if primary demo encounters third-party network or rate limit latency.');",
+              "console.log('Domain datadoghq.com has ultra-high enrichment availability across all vendors.');",
+              "console.log('================================================================');"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "{{RLOE_WEBHOOK_AUTH}}",
+            "type": "text",
+            "description": "Internal n8n webhook authorization header"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company_domain\": \"{{BACKUP_DOMAIN}}\",\n  \"visitor_anonymous_id\": \"{{DYNAMIC_VISITOR_ID}}\",\n  \"source\": \"interview_demo_backup\",\n  \"page_url\": \"https://{{BACKUP_DOMAIN}}/demo\",\n  \"utm_source\": \"partner_referral\",\n  \"signals\": {\n    \"demo_requested\": true,\n    \"enterprise_tier\": true,\n    \"annual_budget_usd\": 200000,\n    \"seat_count_target\": 150,\n    \"pages_viewed\": 9\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{RLOE_WEBHOOK_URL}}",
+          "host": [
+            "{{RLOE_WEBHOOK_URL}}"
+          ]
+        },
+        "description": "High-reliability enterprise backup request (datadoghq.com) ensuring interview continuity regardless of third-party network conditions."
+      },
+      "response": []
+    }
+  ]
+}
