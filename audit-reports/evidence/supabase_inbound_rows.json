@@ -1,0 +1,134 @@
+[
+  {
+    "id": "5fa2ac1b-ab8c-4058-9484-0beef694aa77",
+    "company_domain": "linear.app",
+    "company_name": "Linear Orbit Inc.",
+    "route": "sales_priority",
+    "routing_status": "scored",
+    "icp_fit_score": 95,
+    "prefilter_score": 100,
+    "source": "interview_practice_high_score",
+    "created_at": "2026-10-08T19:48:51.78155+00:00"
+  },
+  {
+    "id": "d2e5f29b-f295-4313-b4d0-25a587e4d17a",
+    "company_domain": "rloe-prod-high-1791477228929.com",
+    "company_name": "Apex AI Technologies",
+    "route": "sales_priority",
+    "routing_status": "scored",
+    "icp_fit_score": 92,
+    "prefilter_score": 100,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T16:33:52.288146+00:00"
+  },
+  {
+    "id": "5577db5c-873c-4ba9-ae78-554006863d54",
+    "company_domain": "rloe-prod-low-1791477217417.com",
+    "company_name": "Suburban Cupcakes",
+    "route": "disqualified",
+    "routing_status": "disqualified",
+    "icp_fit_score": 0,
+    "prefilter_score": 0,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T16:33:43.232507+00:00"
+  },
+  {
+    "id": "6deab9a9-9f6d-4014-860d-1d6fbcb085f0",
+    "company_domain": "rloe-clay-fixed-1791477033.com",
+    "company_name": null,
+    "route": null,
+    "routing_status": "enrichment_pending",
+    "icp_fit_score": null,
+    "prefilter_score": 0,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T16:30:38.885851+00:00"
+  },
+  {
+    "id": "f1a43ed8-6e37-4095-ad12-c26b7bce690b",
+    "company_domain": "rloe-dedup-1791476873384.com",
+    "company_name": null,
+    "route": null,
+    "routing_status": "enrichment_pending",
+    "icp_fit_score": null,
+    "prefilter_score": 0,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T16:27:59.782239+00:00"
+  },
+  {
+    "id": "4f87a352-2f2f-4342-9674-01294d81b733",
+    "company_domain": "nemotron-live-1791475597262.com",
+    "company_name": "Nemotron Cloud Systems",
+    "route": "sales_priority",
+    "routing_status": "scored",
+    "icp_fit_score": 85,
+    "prefilter_score": 100,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T16:06:42.37803+00:00"
+  },
+  {
+    "id": "b6e525e7-20ff-4c88-99de-c9a036d044c7",
+    "company_domain": "rloe-low-1791475569137.com",
+    "company_name": "Local Corner Bakery",
+    "route": "disqualified",
+    "routing_status": "disqualified",
+    "icp_fit_score": 0,
+    "prefilter_score": 0,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T16:06:15.566559+00:00"
+  },
+  {
+    "id": "3bff2122-598e-4ef3-abab-59ee6b45ca43",
+    "company_domain": "nemotron-live-1791458500249.com",
+    "company_name": "Nemotron Cloud Systems",
+    "route": "sales_priority",
+    "routing_status": "scored",
+    "icp_fit_score": 85,
+    "prefilter_score": 100,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T11:21:45.80631+00:00"
+  },
+  {
+    "id": "0d5bc635-b322-4dea-b752-04092ed364a5",
+    "company_domain": "rloe-low-1791458457699.com",
+    "company_name": "Local Corner Bakery",
+    "route": "disqualified",
+    "routing_status": "disqualified",
+    "icp_fit_score": 0,
+    "prefilter_score": 0,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T11:21:03.076361+00:00"
+  },
+  {
+    "id": "414941b2-89fa-42dc-ad8d-09ba0a49d1f5",
+    "company_domain": "rloe-hot-1791455673833.com",
+    "company_name": "Acme AI Enterprise",
+    "route": "needs_review",
+    "routing_status": "needs_review",
+    "icp_fit_score": 0,
+    "prefilter_score": 100,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T10:34:39.114478+00:00"
+  },
+  {
+    "id": "89796dab-4ebc-4347-b43b-d1069b0e97ff",
+    "company_domain": "rloe-hot-1791452066418.com",
+    "company_name": "Acme AI Enterprise",
+    "route": "needs_review",
+    "routing_status": "needs_review",
+    "icp_fit_score": 0,
+    "prefilter_score": 100,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T09:34:31.613567+00:00"
+  },
+  {
+    "id": "679c657f-4316-464b-b816-2b7e6765fbcd",
+    "company_domain": "rloe-audit-1791451973828.com",
+    "company_name": "Audit Low Score Inc",
+    "route": "disqualified",
+    "routing_status": "disqualified",
+    "icp_fit_score": 0,
+    "prefilter_score": 0,
+    "source": "inbound_web",
+    "created_at": "2026-10-08T09:32:58.920655+00:00"
+  }
+]

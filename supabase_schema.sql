@@ -134,12 +134,29 @@ CREATE POLICY "service_role_full_access_usage" ON product_usage_log FOR ALL USIN
 CREATE POLICY "service_role_full_access_telemetry" ON rloe_telemetry FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "service_role_full_access_errors" ON system_error_log FOR ALL USING (auth.role() = 'service_role');
 
--- 2. Dashboard Internal Team Access (Read-Only for Authenticated Users)
--- In production, the GTM dashboard should be restricted to authenticated team members:
+-- 2. Dashboard Internal Team Access — Principle of Least Privilege
+-- Public/Standard authenticated team members read canonical business signals:
 CREATE POLICY "authenticated_team_read_inbound" ON inbound_intent_log FOR SELECT TO authenticated USING (true);
 CREATE POLICY "authenticated_team_read_usage" ON product_usage_log FOR SELECT TO authenticated USING (true);
-CREATE POLICY "authenticated_team_read_telemetry" ON rloe_telemetry FOR SELECT TO authenticated USING (true);
-CREATE POLICY "authenticated_team_read_errors" ON system_error_log FOR SELECT TO authenticated USING (true);
+
+-- Least-Privilege Guardrail:
+-- Execution telemetry and system stack traces contain sensitive operational metadata and visitor payloads.
+-- Do NOT use unrestricted USING (true) for all authenticated users.
+-- Restrict read access to authorized RevOps operators and administrators via app_metadata role:
+CREATE POLICY "operator_least_privilege_read_telemetry" ON rloe_telemetry 
+FOR SELECT TO authenticated 
+USING (
+    (auth.jwt() -> 'app_metadata' ->> 'role') IN ('admin', 'revops_admin', 'operator')
+    OR (auth.jwt() ->> 'email') LIKE '%@gtm.internal'
+    OR auth.role() = 'service_role'
+);
+
+CREATE POLICY "admin_least_privilege_read_errors" ON system_error_log 
+FOR SELECT TO authenticated 
+USING (
+    (auth.jwt() -> 'app_metadata' ->> 'role') IN ('admin', 'revops_admin')
+    OR auth.role() = 'service_role'
+);
 
 -- 3. Security Warning: Anonymous Read Policy (Sandbox / Portfolio Demo Only)
 -- CAUTION: Do NOT enable public anonymous read policies on live production databases,

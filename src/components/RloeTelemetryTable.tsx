@@ -94,7 +94,7 @@ export const RloeTelemetryTable: React.FC<RloeTelemetryTableProps> = ({
       {/* Main Table Container */}
       <div className="flex-1 overflow-auto">
         <table className="w-full text-left text-xs border-collapse min-w-[900px]">
-          <thead className="sticky top-0 bg-muted/80 backdrop-blur-xs border-b border-border z-10 text-muted-foreground select-none">
+          <thead className="sticky top-0 bg-muted border-b border-border z-10 text-muted-foreground select-none shadow-xs">
             <tr>
               <th className="py-2.5 px-4 font-medium">Company Domain</th>
               <th className="py-2.5 px-3 font-medium">Route / Status</th>
@@ -112,10 +112,18 @@ export const RloeTelemetryTable: React.FC<RloeTelemetryTableProps> = ({
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={10} className="py-12 text-center text-muted-foreground">
-                  <div className="flex flex-col items-center justify-center gap-1">
+                  <div className="flex flex-col items-center justify-center gap-1.5 max-w-md mx-auto">
                     <Layers className="size-6 text-muted-foreground/50 mb-1" />
-                    <p className="text-xs font-medium text-foreground">No telemetry entries found</p>
-                    <p className="text-[11px]">Adjust your filters or verify incoming signals in Lane A.</p>
+                    <p className="text-xs font-semibold text-foreground">
+                      {telemetry.length === 0
+                        ? 'No Direct Telemetry Records Available'
+                        : 'No telemetry matches current filter'}
+                    </p>
+                    <p className="text-[11px] leading-relaxed text-muted-foreground">
+                      {telemetry.length === 0
+                        ? 'Under Supabase Row-Level Security (RLS), the rloe_telemetry table is restricted to service_role. Team members view canonical signals in the Inbound Intent Logs tab.'
+                        : 'Adjust your route or cache filters to display matching workflow events.'}
+                    </p>
                   </div>
                 </td>
               </tr>

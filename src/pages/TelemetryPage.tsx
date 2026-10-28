@@ -199,7 +199,7 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
           {activeTab === 'inbound' && (
             <div className="flex-1 overflow-auto">
               <table className="w-full text-left text-xs border-collapse">
-                <thead className="sticky top-0 bg-muted/80 backdrop-blur-xs border-b border-border text-muted-foreground">
+                <thead className="sticky top-0 bg-muted border-b border-border text-muted-foreground shadow-xs">
                   <tr>
                     <th className="py-2.5 px-4 font-medium">Domain</th>
                     <th className="py-2.5 px-3 font-medium">Source</th>
@@ -252,7 +252,7 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
           {activeTab === 'errors' && (
             <div className="flex-1 overflow-auto">
               <table className="w-full text-left text-xs border-collapse">
-                <thead className="sticky top-0 bg-muted/80 backdrop-blur-xs border-b border-border text-muted-foreground">
+                <thead className="sticky top-0 bg-muted border-b border-border text-muted-foreground shadow-xs">
                   <tr>
                     <th className="py-2.5 px-4 font-medium">Execution ID</th>
                     <th className="py-2.5 px-3 font-medium">Workflow</th>

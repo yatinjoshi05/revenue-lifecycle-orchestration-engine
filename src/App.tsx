@@ -3,9 +3,26 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider, useCRM } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { RloeProvider } from './context/RloeContext';
+import { NexusProvider } from './context/NexusContext';
 import { Sidebar } from './components/Sidebar';
 import { CommandSearchModal } from './components/CommandSearchModal';
 import { SettingsDrawer } from './components/SettingsDrawer';
+
+// NEXUS GTM Control Plane Pages
+import { DashboardOverviewPage } from './pages/DashboardOverviewPage';
+import { SignalsExplorerPage } from './pages/SignalsExplorerPage';
+import { TagInspectorPage } from './pages/TagInspectorPage';
+import { HandoffsPage } from './pages/HandoffsPage';
+import { Account360Page } from './pages/Account360Page';
+import { RevenueIntegrityPage } from './pages/RevenueIntegrityPage';
+import { EnrichmentPage } from './pages/EnrichmentPage';
+import { ReconciliationPage } from './pages/ReconciliationPage';
+import { SystemStatusPage } from './pages/SystemStatusPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsPage } from './pages/TermsPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+
+// CRM & Operational Pages (Preserved)
 import { OpportunitiesPage } from './pages/OpportunitiesPage';
 import { OpportunityDetailPage } from './pages/OpportunityDetailPage';
 import { AccountsPage } from './pages/AccountsPage';
@@ -64,9 +81,50 @@ const AppLayout: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <main className="flex min-w-0 flex-1 flex-col overflow-hidden bg-background">
+      <main className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-background">
         <Routes>
-          <Route path="/" element={<Navigate to="/opportunities" replace />} />
+          {/* NEXUS GTM Control Plane Core Routes */}
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route
+            path="/dashboard"
+            element={<DashboardOverviewPage onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/signals"
+            element={<SignalsExplorerPage onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/inspector"
+            element={<TagInspectorPage onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/handoffs"
+            element={<HandoffsPage onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/accounts-360"
+            element={<Account360Page onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/accounts-360/:domain"
+            element={<Account360Page onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/integrity"
+            element={<RevenueIntegrityPage onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route
+            path="/enrichment"
+            element={<EnrichmentPage onToggleMobileSidebar={() => setMobileOpen(true)} />}
+          />
+          <Route path="/operations" element={<ReconciliationPage />} />
+          <Route path="/system" element={<SystemStatusPage />} />
+
+          {/* Legal Pages */}
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+
+          {/* CRM & Workspace Routes (Preserved) */}
           <Route
             path="/opportunities"
             element={
@@ -158,17 +216,19 @@ const AppLayout: React.FC = () => {
               />
             }
           />
-          <Route path="*" element={<Navigate to="/opportunities" replace />} />
+
+          {/* Custom 404 Route */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
 
       {/* Global Quick Search (⌘K / Ctrl+K) */}
       <CommandSearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* GTM & RLOE System Settings Drawer (opened via CogLoopIcon) */}
+      {/* System Settings Drawer */}
       <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
-      {/* Global Movable Floating AI Assistant Ball & Panel */}
+      {/* Global Movable Floating Assistant */}
       <MovableAssistant />
 
       {/* New List Modal */}
@@ -195,7 +255,7 @@ const AppLayout: React.FC = () => {
                   placeholder="e.g. High Priority Q1"
                   value={newListName}
                   onChange={(e) => setNewListName(e.target.value)}
-                  className="h-8 w-full rounded-control border border-input bg-background px-3 outline-none focus:border-ring"
+                  className="h-8 w-full rounded border border-input bg-background px-3 outline-none focus:border-ring"
                 />
               </div>
               <div className="space-y-1">
@@ -203,7 +263,7 @@ const AppLayout: React.FC = () => {
                 <select
                   value={newListType}
                   onChange={(e) => setNewListType(e.target.value as any)}
-                  className="h-8 w-full rounded-control border border-input bg-background px-2.5 outline-none focus:border-ring"
+                  className="h-8 w-full rounded border border-input bg-background px-2.5 outline-none focus:border-ring"
                 >
                   <option value="opportunities">Opportunities</option>
                   <option value="accounts">Accounts</option>
@@ -214,13 +274,13 @@ const AppLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setNewListModalOpen(false)}
-                  className="h-8 rounded-control border border-border px-3 text-xs hover:bg-muted"
+                  className="h-8 rounded border border-border px-3 text-xs hover:bg-muted"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="h-8 rounded-control bg-primary text-primary-foreground px-4 text-xs font-medium hover:bg-primary/90"
+                  className="h-8 rounded bg-primary text-primary-foreground px-4 text-xs font-medium hover:bg-primary/90"
                 >
                   Create
                 </button>
@@ -236,13 +296,15 @@ const AppLayout: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <DataProvider>
-        <RloeProvider>
-          <BrowserRouter>
-            <AppLayout />
-          </BrowserRouter>
-        </RloeProvider>
-      </DataProvider>
+      <RloeProvider>
+        <DataProvider>
+          <NexusProvider>
+            <BrowserRouter>
+              <AppLayout />
+            </BrowserRouter>
+          </NexusProvider>
+        </DataProvider>
+      </RloeProvider>
     </ThemeProvider>
   );
 };

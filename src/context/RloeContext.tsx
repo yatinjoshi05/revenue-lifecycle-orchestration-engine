@@ -10,6 +10,10 @@ import {
   testN8nConnection,
   testNvidiaConnection,
   dispatchInboundSignal,
+  signInOperator,
+  signOutOperator,
+  getStoredSession,
+  OperatorSession,
 } from '../services/rloe';
 
 interface RloeContextType {
@@ -27,15 +31,22 @@ interface RloeContextType {
   refreshData: () => Promise<void>;
   simulateSignal: (companyDomain: string, source: string) => Promise<{ success: boolean; message: string }>;
   clearTelemetryData: () => void;
+  // Operator Authentication (Zero Hardcoded Secrets)
+  session: OperatorSession | null;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => void;
+  isTelemetryRestrictedByRls: boolean;
 }
 
 const RloeContext = createContext<RloeContextType | undefined>(undefined);
 
 export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<RloeSettings>(loadSettings);
+  const [session, setSession] = useState<OperatorSession | null>(getStoredSession);
   const [inboundLogs, setInboundLogs] = useState<InboundIntentLog[]>([]);
   const [telemetry, setTelemetry] = useState<RloeTelemetry[]>([]);
   const [errorLogs, setErrorLogs] = useState<SystemErrorLog[]>([]);
+  const [isTelemetryRestrictedByRls, setIsTelemetryRestrictedByRls] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,7 +58,7 @@ export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const isConnected = Boolean(settings.supabaseUrl && settings.supabaseAnonKey);
 
-  // Fetch real data when credentials are set
+  // Fetch real data when credentials or session changes
   const refreshData = useCallback(async () => {
     if (!settings.supabaseUrl || !settings.supabaseAnonKey) {
       setInboundLogs([]);
@@ -59,13 +70,14 @@ export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     setError(null);
     try {
-      const [logs, telem, errs] = await Promise.all([
-        fetchInboundIntentLogs(settings),
+      const logs = await fetchInboundIntentLogs(settings);
+      const [telemResult, errs] = await Promise.all([
         fetchRloeTelemetry(settings),
         fetchSystemErrorLogs(settings),
       ]);
       setInboundLogs(logs);
-      setTelemetry(telem);
+      setTelemetry(telemResult.rows);
+      setIsTelemetryRestrictedByRls(telemResult.isRestrictedByRls);
       setErrorLogs(errs);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch RLOE data from Supabase');
@@ -99,6 +111,24 @@ export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setInboundLogs([]);
     setTelemetry([]);
     setErrorLogs([]);
+  };
+
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    setIsLoading(true);
+    const result = await signInOperator(email, password, settings);
+    setIsLoading(false);
+    if (result.success && result.session) {
+      setSession(result.session);
+      await refreshData();
+      return { success: true };
+    }
+    return { success: false, error: result.error || 'Authentication failed' };
+  };
+
+  const logout = () => {
+    signOutOperator();
+    setSession(null);
+    refreshData();
   };
 
   const runConnectionTest = async (service: 'supabase' | 'n8n' | 'nvidia'): Promise<ConnectionTestResult> => {
@@ -147,23 +177,29 @@ export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const totalSignalsIngested = inboundLogs.length;
 
     // Cache Triage Resolution Rate: cache hits / total eligible inputs * 100
-    // Handle zero denominator, missing cache_hit, null values gracefully
+    // Handle zero denominator gracefully
     const eligibleInputs = inboundLogs.filter((l) => typeof l.cache_hit === 'boolean');
     const cacheHitsCount = eligibleInputs.filter((l) => l.cache_hit === true).length;
     const cacheTriageResolutionRate =
       eligibleInputs.length > 0 ? Math.round((cacheHitsCount / eligibleInputs.length) * 100) : 0;
 
-    // Hot Sales Pipeline Velocity: records where route === 'sales_priority', multiplied by $85,000 USD
-    const salesPriorityRecords = telemetry.filter((t) => t.route === 'sales_priority');
+    // Sales priority counts from verified inbound signals
+    const salesPriorityRecords = inboundLogs.filter((l) => l.route === 'sales_priority');
     const salesPriorityCount = salesPriorityRecords.length;
-    const needsReviewCount = telemetry.filter((t) => t.route === 'needs_review').length;
-    const disqualifiedCount = telemetry.filter((t) => t.route === 'disqualified').length;
-    const estimatedPipelineVelocity = salesPriorityCount * 85000;
+    const needsReviewCount = inboundLogs.filter((l) => l.route === 'needs_review').length;
+    const disqualifiedCount = inboundLogs.filter((l) => l.route === 'disqualified').length;
 
-    // Cumulative token spend
+    // Estimated Pipeline Value: sum of verified annual revenue where present, otherwise $0
+    // Strictly zero synthetic $85k multiplier
+    const confirmedRevenue = salesPriorityRecords.reduce(
+      (sum, l) => sum + (Number(l.estimated_annual_revenue) || 0),
+      0
+    );
+
+    // Cumulative token spend from real telemetry records
     const llmTokenSpendUSD = telemetry.reduce((sum, t) => sum + (t.est_cost_usd || 0), 0);
 
-    // Average latency
+    // Average latency calculated only from real measurements
     const validLatencies = telemetry.filter((t) => typeof t.total_ms === 'number' && t.total_ms > 0);
     const averageLatencyMs =
       validLatencies.length > 0
@@ -173,7 +209,7 @@ export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return {
       totalSignalsIngested,
       cacheTriageResolutionRate,
-      estimatedPipelineVelocity,
+      estimatedPipelineVelocity: confirmedRevenue,
       salesPriorityCount,
       needsReviewCount,
       disqualifiedCount,
@@ -201,6 +237,10 @@ export const RloeProvider: React.FC<{ children: React.ReactNode }> = ({ children
         refreshData,
         simulateSignal,
         clearTelemetryData,
+        session,
+        login,
+        logout,
+        isTelemetryRestrictedByRls,
       }}
     >
       {children}

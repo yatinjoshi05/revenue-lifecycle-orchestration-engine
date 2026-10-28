@@ -159,12 +159,14 @@ export const OpportunityTable: React.FC<OpportunityTableProps> = ({
                   <tr
                     key={opp.id}
                     onClick={() => onSelect(opp.id)}
-                    className={`group/row cursor-pointer transition-colors hover:bg-muted/50 ${
-                      isSelected ? 'bg-muted/80' : ''
+                    className={`group/row cursor-pointer transition-colors ${
+                      isSelected ? 'bg-muted/80' : 'bg-background hover:bg-muted/50'
                     }`}
                   >
                     {/* Name column (sticky) */}
-                    <td className="sticky left-0 z-10 bg-inherit py-2.5 px-4 font-medium min-w-[240px] border-r border-border/50">
+                    <td className={`sticky left-0 z-10 py-2.5 px-4 font-medium min-w-[240px] border-r border-border/50 transition-colors ${
+                      isSelected ? 'bg-muted' : 'bg-background group-hover/row:bg-muted/50'
+                    }`}>
                       <div className="flex items-center justify-between gap-2">
                         <span className="truncate hover:underline text-foreground">
                           {opp.name}

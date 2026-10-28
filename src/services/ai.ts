@@ -169,8 +169,8 @@ export async function queryGtmCopilot(
     return {
       text: `GTM Executive Briefing:\n\n` +
         `• **Negotiation Stage:** ${oppsInNegotiation.length} deals totaling $${totalNegotiation.toLocaleString()}.\n` +
-        `• **RLOE Hot Sales Inbound:** ${hotTelemetry.length} accounts routed to \`sales_priority\`.\n` +
-        `• **Estimated Pipeline Velocity Value:** $${(hotTelemetry.length * 85000).toLocaleString()} (based on $85k est. deal value per priority account).\n` +
+        `• **RLOE Sales-Priority Inbound:** ${hotTelemetry.length} accounts routed to \`sales_priority\`.\n` +
+        `• **Pipeline Potential:** ${hotTelemetry.length} priority leads identified by RLOE routing lanes.\n` +
         `• **Action Item:** Prioritize direct SDR touchpoint for newly qualified webhook signals in Lane D.`,
     };
   }

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import {
   Opportunity,
   Account,
@@ -19,6 +19,14 @@ import {
   initialMembers,
   initialContext,
 } from '../data/initialData';
+import { useRloe } from './RloeContext';
+import {
+  deriveAccountsFromInboundLogs,
+  deriveOpportunitiesFromInboundLogs,
+  deriveTasksFromInboundLogs,
+  deriveContactsFromAccounts,
+} from '../utils/pipelineAdapter';
+import { nexusApi } from '../services/nexusApi';
 
 interface DataContextType {
   opportunities: Opportunity[];
@@ -29,6 +37,7 @@ interface DataContextType {
   members: Member[];
   currentUser: Member;
   workspace: { id: string; name: string; slug: string };
+  isSyncing: boolean;
   setCurrentUser: (member: Member) => void;
   createOpportunity: (data: Partial<Opportunity>) => Opportunity;
   updateOpportunity: (id: string, updates: Partial<Opportunity>) => void;
@@ -163,6 +172,128 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [members] = useState<Member[]>(initialMembers);
   const [currentUser, setCurrentUser] = useState<Member>(initialContext.user);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const hasMigratedRef = useRef<boolean>(false);
+
+  const { inboundLogs } = useRloe();
+
+  // Phase 6: Load shared CRM data from PostgreSQL on mount and migrate legacy localStorage if needed
+  useEffect(() => {
+    let isMounted = true;
+
+    async function syncSharedCrmData() {
+      setIsSyncing(true);
+      try {
+        const [remoteAccs, remoteContacts, remoteOpps, remoteTasks, remoteLists] = await Promise.all([
+          nexusApi.getCrmAccounts().catch(() => []),
+          nexusApi.getCrmContacts().catch(() => []),
+          nexusApi.getCrmOpportunities().catch(() => []),
+          nexusApi.getCrmTasks().catch(() => []),
+          nexusApi.getCrmLists().catch(() => []),
+        ]);
+
+        if (!isMounted) return;
+
+        // One-time automatic migration of local records to shared database if local has records and server is empty/partial
+        if (!hasMigratedRef.current) {
+          hasMigratedRef.current = true;
+          const localAccs = accounts.filter((a) => !isMockName(a.name));
+          const localOpps = opportunities.filter((o) => !isMockName(o.name));
+          const localContacts = contacts.filter((c) => !isMockName(c.name));
+          const localTasks = tasks.filter((t) => !isMockName(t.title));
+          const localLists = lists.filter((l) => !isMockName(l.name));
+
+          if (
+            (localAccs.length > 0 && remoteAccs.length === 0) ||
+            (localOpps.length > 0 && remoteOpps.length === 0) ||
+            (localTasks.length > 0 && remoteTasks.length === 0)
+          ) {
+            try {
+              await nexusApi.migrateCrmData({
+                accounts: localAccs,
+                opportunities: localOpps,
+                contacts: localContacts,
+                tasks: localTasks,
+                lists: localLists,
+              });
+              // Reload fresh records after migration
+              const [reloadedAccs, reloadedContacts, reloadedOpps, reloadedTasks, reloadedLists] = await Promise.all([
+                nexusApi.getCrmAccounts().catch(() => remoteAccs),
+                nexusApi.getCrmContacts().catch(() => remoteContacts),
+                nexusApi.getCrmOpportunities().catch(() => remoteOpps),
+                nexusApi.getCrmTasks().catch(() => remoteTasks),
+                nexusApi.getCrmLists().catch(() => remoteLists),
+              ]);
+              if (isMounted) {
+                if (reloadedAccs.length > 0) setAccounts(reloadedAccs);
+                if (reloadedContacts.length > 0) setContacts(reloadedContacts);
+                if (reloadedOpps.length > 0) setOpportunities(reloadedOpps);
+                if (reloadedTasks.length > 0) setTasks(reloadedTasks);
+                if (reloadedLists.length > 0) setLists(reloadedLists);
+              }
+              return;
+            } catch (migErr) {
+              console.warn('Automatic CRM data migration skipped or failed:', migErr);
+            }
+          }
+        }
+
+        if (remoteAccs.length > 0) setAccounts(remoteAccs);
+        if (remoteContacts.length > 0) setContacts(remoteContacts);
+        if (remoteOpps.length > 0) setOpportunities(remoteOpps);
+        if (remoteTasks.length > 0) setTasks(remoteTasks);
+        if (remoteLists.length > 0) setLists(remoteLists);
+      } catch (err) {
+        console.warn('Failed to load shared CRM database records, using local cache:', err);
+      } finally {
+        if (isMounted) setIsSyncing(false);
+      }
+    }
+
+    syncSharedCrmData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Synchronize live pipeline data from Supabase inbound_intent_log
+  useEffect(() => {
+    if (!inboundLogs || inboundLogs.length === 0) return;
+
+    const derivedAccs = deriveAccountsFromInboundLogs(inboundLogs, currentUser);
+    const derivedOpps = deriveOpportunitiesFromInboundLogs(inboundLogs, derivedAccs, currentUser);
+    const derivedTasks = deriveTasksFromInboundLogs(inboundLogs, derivedAccs, currentUser);
+    const derivedContacts = deriveContactsFromAccounts(derivedAccs, currentUser);
+
+    setAccounts((prev) => {
+      const existingIds = new Set(prev.map((a) => a.id));
+      const newItems = derivedAccs.filter((a) => !existingIds.has(a.id));
+      if (newItems.length === 0) return prev;
+      return [...prev, ...newItems];
+    });
+
+    setOpportunities((prev) => {
+      const existingIds = new Set(prev.map((o) => o.id));
+      const newItems = derivedOpps.filter((o) => !existingIds.has(o.id));
+      if (newItems.length === 0) return prev;
+      return [...prev, ...newItems];
+    });
+
+    setTasks((prev) => {
+      const existingIds = new Set(prev.map((t) => t.id));
+      const newItems = derivedTasks.filter((t) => !existingIds.has(t.id));
+      if (newItems.length === 0) return prev;
+      return [...prev, ...newItems];
+    });
+
+    setContacts((prev) => {
+      const existingIds = new Set(prev.map((c) => c.id));
+      const newItems = derivedContacts.filter((c) => !existingIds.has(c.id));
+      if (newItems.length === 0) return prev;
+      return [...prev, ...newItems];
+    });
+  }, [inboundLogs, currentUser]);
 
   useEffect(() => {
     localStorage.setItem(`${STORAGE_KEY}_opps`, JSON.stringify(opportunities));
@@ -213,6 +344,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     setOpportunities((prev) => [newOpp, ...prev]);
+
+    // Asynchronously persist to PostgreSQL
+    nexusApi.createCrmOpportunity(newOpp).catch((err) => {
+      console.warn('Failed to persist created opportunity to shared database:', err);
+    });
+
     return newOpp;
   };
 
@@ -229,17 +366,26 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return updated;
       })
     );
+
+    // Asynchronously persist to PostgreSQL
+    nexusApi.updateCrmOpportunity(id, updates).catch((err) => {
+      console.warn('Failed to persist updated opportunity to shared database:', err);
+    });
   };
 
   const deleteOpportunity = (id: string) => {
     setOpportunities((prev) => prev.filter((o) => o.id !== id));
-    // also remove from lists
     setLists((prev) =>
       prev.map((l) => ({
         ...l,
         recordIds: l.recordIds.filter((rid) => rid !== id),
       }))
     );
+
+    // Asynchronously delete from PostgreSQL
+    nexusApi.deleteCrmOpportunity(id).catch((err) => {
+      console.warn('Failed to delete opportunity from shared database:', err);
+    });
   };
 
   const moveOpportunityStage = (id: string, newStage: Stage) => {
@@ -263,6 +409,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       })
     );
+
+    // Asynchronously update stage in PostgreSQL
+    nexusApi.updateCrmOpportunity(id, { stage: newStage }).catch((err) => {
+      console.warn('Failed to persist opportunity stage move to shared database:', err);
+    });
   };
 
   const addNote = (kind: 'opportunities' | 'accounts' | 'contacts', recordId: string, body: string) => {
@@ -278,9 +429,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setOpportunities((prev) =>
         prev.map((opp) => {
           if (opp.id !== recordId) return opp;
+          const updatedNotes = [newNote, ...(opp.notes || [])];
+          nexusApi.updateCrmOpportunity(recordId, { notes: updatedNotes }).catch(() => {});
           return {
             ...opp,
-            notes: [newNote, ...(opp.notes || [])],
+            notes: updatedNotes,
           };
         })
       );
@@ -288,9 +441,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setAccounts((prev) =>
         prev.map((acc) => {
           if (acc.id !== recordId) return acc;
+          const updatedNotes = [newNote, ...(acc.notes || [])];
           return {
             ...acc,
-            notes: [newNote, ...(acc.notes || [])],
+            notes: updatedNotes,
           };
         })
       );
@@ -298,9 +452,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setContacts((prev) =>
         prev.map((c) => {
           if (c.id !== recordId) return c;
+          const updatedNotes = [newNote, ...(c.notes || [])];
           return {
             ...c,
-            notes: [newNote, ...(c.notes || [])],
+            notes: updatedNotes,
           };
         })
       );
@@ -312,9 +467,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       prev.map((l) => {
         if (l.id !== listId) return l;
         if (l.recordIds.includes(recordId)) return l;
+        const updatedIds = [...l.recordIds, recordId];
+        nexusApi.updateCrmList(listId, { recordIds: updatedIds }).catch(() => {});
         return {
           ...l,
-          recordIds: [...l.recordIds, recordId],
+          recordIds: updatedIds,
         };
       })
     );
@@ -324,9 +481,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLists((prev) =>
       prev.map((l) => {
         if (l.id !== listId) return l;
+        const updatedIds = l.recordIds.filter((id) => id !== recordId);
+        nexusApi.updateCrmList(listId, { recordIds: updatedIds }).catch(() => {});
         return {
           ...l,
-          recordIds: l.recordIds.filter((id) => id !== recordId),
+          recordIds: updatedIds,
         };
       })
     );
@@ -341,6 +500,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       createdAt: new Date().toISOString(),
     };
     setLists((prev) => [...prev, newList]);
+
+    nexusApi.createCrmList(newList).catch((err) => {
+      console.warn('Failed to persist list to shared database:', err);
+    });
+
     return newList;
   };
 
@@ -362,6 +526,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updatedAt: now,
     };
     setAccounts((prev) => [newAcc, ...prev]);
+
+    nexusApi.createCrmAccount(newAcc).catch((err) => {
+      console.warn('Failed to persist account to shared database:', err);
+    });
+
     return newAcc;
   };
 
@@ -382,15 +551,28 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updatedAt: now,
     };
     setContacts((prev) => [newCon, ...prev]);
+
+    nexusApi.createCrmContact(newCon).catch((err) => {
+      console.warn('Failed to persist contact to shared database:', err);
+    });
+
     return newCon;
   };
 
   const deleteAccount = (id: string) => {
     setAccounts((prev) => prev.filter((a) => a.id !== id));
+
+    nexusApi.deleteCrmAccount(id).catch((err) => {
+      console.warn('Failed to delete account from shared database:', err);
+    });
   };
 
   const deleteContact = (id: string) => {
     setContacts((prev) => prev.filter((c) => c.id !== id));
+
+    nexusApi.deleteCrmContact(id).catch((err) => {
+      console.warn('Failed to delete contact from shared database:', err);
+    });
   };
 
   const createTask = (title: string, dueDate?: string): Task => {
@@ -406,17 +588,29 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updatedAt: now,
     };
     setTasks((prev) => [newTask, ...prev]);
+
+    nexusApi.createCrmTask(newTask).catch((err) => {
+      console.warn('Failed to persist task to shared database:', err);
+    });
+
     return newTask;
   };
 
   const toggleTaskStatus = (id: string) => {
+    const task = tasks.find((t) => t.id === id);
+    const newStatus = task?.status === 'done' ? 'todo' : 'done';
+
     setTasks((prev) =>
       prev.map((t) =>
         t.id === id
-          ? { ...t, status: t.status === 'done' ? 'todo' : 'done', updatedAt: new Date().toISOString() }
+          ? { ...t, status: newStatus, updatedAt: new Date().toISOString() }
           : t
       )
     );
+
+    nexusApi.updateCrmTask(id, { status: newStatus }).catch((err) => {
+      console.warn('Failed to persist task status update to shared database:', err);
+    });
   };
 
   const resetData = () => {
@@ -439,6 +633,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         members,
         currentUser,
         workspace: initialContext.workspace,
+        isSyncing,
         setCurrentUser,
         createOpportunity,
         updateOpportunity,
