@@ -4,7 +4,7 @@ export const initialContext: UserContext = {
   user: {
     id: '6c7138af-bc42-4530-bc96-ff7255759a65',
     name: 'Operator',
-    email: 'operator@revops.internal',
+    email: 'operator@revops.local',
     image: null,
   },
   workspace: {
@@ -19,7 +19,7 @@ export const initialMembers: Member[] = [
   {
     id: '6c7138af-bc42-4530-bc96-ff7255759a65',
     name: 'Operator',
-    email: 'operator@revops.internal',
+    email: 'operator@revops.local',
   },
 ];
 

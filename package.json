@@ -1,15 +1,12 @@
 {
-  "name": "rloe-revenue-intelligence",
+  "name": "crm-clone",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
-    "test": "npx tsx --test tests/unit/api_contract.test.ts tests/unit/validation_and_security.test.ts tests/unit/dev_proxy.test.ts tests/unit/layout_and_styling.test.ts tests/unit/functionality_and_integrity.test.ts tests/integration/vite_proxy_runtime.test.ts tests/integration/nexus_flows.test.ts",
-    "test:unit": "npx tsx --test tests/unit/api_contract.test.ts tests/unit/validation_and_security.test.ts tests/unit/dev_proxy.test.ts tests/unit/layout_and_styling.test.ts tests/unit/functionality_and_integrity.test.ts",
-    "test:integration": "npx tsx --test tests/integration/vite_proxy_runtime.test.ts tests/integration/nexus_flows.test.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
     "clsx": "^2.1.1",
