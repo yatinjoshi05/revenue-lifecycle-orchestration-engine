@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "dataflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\gtm\\.archify\\candidates\\rloe-dataflow.candidate.json",
+    "sha256": "f7bb59c38bfc2b8f8aac11c9fb97d531d09a8e40d7822548ac540a160af43981",
+    "bytes": 6371
+  },
+  "artifact": {
+    "path": "D:\\gtm\\archify\\rloe-dataflow.html",
+    "sha256": "657c8984836a88e53971a6fe68337e54d7a6ffffc62625845dd3a9fda7fa7842",
+    "bytes": 846233
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\gtm\\archify\\rloe-dataflow.finalize.json",
+    "summaryReceipt": "D:\\gtm\\archify\\rloe-dataflow.finalize-summary.json",
+    "browserCheckReceipt": "D:\\gtm\\archify\\rloe-dataflow.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-28T07:48:24.353Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 9275,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

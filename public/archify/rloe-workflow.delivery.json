@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "49e081d4-6792-4c03-ba7b-66aabe8ba508",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "D:\\gtm\\.archify\\candidates\\rloe-workflow.candidate.json",
+  "output": "D:\\gtm\\archify\\rloe-workflow.html",
+  "specification": {
+    "sha256": "6e06bf811c7a8dc2b3eca5cab06ea6e0f56f22c6d486c68e82c2dc77f4ec398e",
+    "bytes": 8151
+  },
+  "artifact": {
+    "sha256": "abad5c2f36e33a3cd5f6b7ad0f23e73cfb4384bd915e4f3d5ae59812ddf532c8",
+    "bytes": 860420
+  }
+}

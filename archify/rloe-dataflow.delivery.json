@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "8677a519-0986-4f37-a8d7-3df8766a6be2",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "D:\\gtm\\.archify\\candidates\\rloe-dataflow.candidate.json",
+  "output": "D:\\gtm\\archify\\rloe-dataflow.html",
+  "specification": {
+    "sha256": "f7bb59c38bfc2b8f8aac11c9fb97d531d09a8e40d7822548ac540a160af43981",
+    "bytes": 6371
+  },
+  "artifact": {
+    "sha256": "657c8984836a88e53971a6fe68337e54d7a6ffffc62625845dd3a9fda7fa7842",
+    "bytes": 846233
+  }
+}

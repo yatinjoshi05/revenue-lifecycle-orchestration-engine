@@ -18,6 +18,23 @@ Modern B2B revenue teams face two costly bottlenecks:
 
 ---
 
+## 🏛️ Interactive Architecture Portfolio — Powered by Archify 3.2.0
+
+> **Live Portfolio Hub:** [Explore the Interactive Architecture Portfolio](https://yatinjoshi05.github.io/revenue-lifecycle-orchestration-engine/archify/)  
+> All 5 diagrams are compiled directly from verified repository source code and live n8n workflows, rendered as interactive HTML artifacts via [Archify 3.2.0](https://github.com/tt-a1i/archify).
+
+| Diagram | Focus & Description | Interactive Live Diagram |
+| :--- | :--- | :--- |
+| **Master Architecture** | System topology, security boundaries, Supabase RLS, and RevOps sync | [Launch Live Topology](https://yatinjoshi05.github.io/revenue-lifecycle-orchestration-engine/archify/rloe-master.html) |
+| **Revenue Lifecycle Workflow** | 39-node orchestration logic, cache check branches, and triage rules | [Launch Live Workflow](https://yatinjoshi05.github.io/revenue-lifecycle-orchestration-engine/archify/rloe-workflow.html) |
+| **Dataflow & Telemetry Pipeline** | Lineage from webhook ingress to audited token metrics and CRM | [Launch Live Dataflow](https://yatinjoshi05.github.io/revenue-lifecycle-orchestration-engine/archify/rloe-dataflow.html) |
+| **Qualification Sequence** | End-to-end execution trace: Cache Miss → Clay Waterfall → Claude LLM → HubSpot | [Launch Live Sequence](https://yatinjoshi05.github.io/revenue-lifecycle-orchestration-engine/archify/rloe-sequence.html) |
+| **Revenue Intent Lifecycle** | State machine for inbound signals: Ingress → Dedup → Pre-Filter → Routing | [Launch Live Lifecycle](https://yatinjoshi05.github.io/revenue-lifecycle-orchestration-engine/archify/rloe-lifecycle.html) |
+
+*For detailed source citations and test receipts, review the [Evidence Manifest](https://github.com/yatinjoshi05/revenue-lifecycle-orchestration-engine/blob/main/archify/EVIDENCE_MANIFEST.md) and [Verification Report](https://github.com/yatinjoshi05/revenue-lifecycle-orchestration-engine/blob/main/archify/VERIFICATION_REPORT.md).*
+
+---
+
 ## 2. Architecture & Data Flow
 
 ```

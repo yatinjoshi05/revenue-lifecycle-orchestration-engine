@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "lifecycle",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\gtm\\.archify\\candidates\\rloe-lifecycle.candidate.json",
+    "sha256": "13b417f0ddd07364acb639f8c0235a77b9d6ac6c477ccc22a545ffa124be95ba",
+    "bytes": 5721
+  },
+  "artifact": {
+    "path": "D:\\gtm\\archify\\rloe-lifecycle.html",
+    "sha256": "79c8bfe5229018119ddd39fe9c9e3b2baca0695b7b6c49c29aa8a43c1fbe25a7",
+    "bytes": 851209
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\gtm\\archify\\rloe-lifecycle.finalize.json",
+    "summaryReceipt": "D:\\gtm\\archify\\rloe-lifecycle.finalize-summary.json",
+    "browserCheckReceipt": "D:\\gtm\\archify\\rloe-lifecycle.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-28T07:48:24.353Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 8473,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

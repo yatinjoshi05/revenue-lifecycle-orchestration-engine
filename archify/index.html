@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RLOE — Architecture Intelligence Portfolio (Archify 3.2.0)</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #111827;
+      --surface-border: #1f2937;
+      --surface-hover: #1e293b;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-faint: #6b7280;
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.15);
+      --accent: #818cf8;
+      --emerald: #34d399;
+      --emerald-glow: rgba(52, 211, 153, 0.12);
+      --amber: #fbbf24;
+      --rose: #f43f5e;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 1.5rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    header {
+      padding: 3.5rem 0 2rem;
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+    .badge-verified {
+      background: var(--emerald-glow);
+      border-color: rgba(52, 211, 153, 0.3);
+      color: var(--emerald);
+    }
+    .badge-archify {
+      background: var(--primary-glow);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+    }
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .meta-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .meta-item strong {
+      color: #fff;
+      font-weight: 600;
+      margin-right: 0.35rem;
+    }
+    .meta-item code {
+      font-family: var(--font-mono);
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+    main {
+      flex: 1;
+      padding: 2.5rem 0 4rem;
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+    }
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+    }
+    .card-top {
+      margin-bottom: 1.25rem;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .card-type {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.375rem;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+    }
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .card-facts {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.825rem;
+      color: var(--text-faint);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 0.85rem;
+    }
+    .card-facts li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+    .card-facts li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .card-btn:hover {
+      background: var(--primary);
+      color: #0b0f19;
+      border-color: var(--primary);
+    }
+    .reports-section {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--surface-border);
+    }
+    .reports-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .report-link {
+      display: block;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 0.625rem;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.15s ease;
+    }
+    .report-link:hover {
+      border-color: var(--primary);
+      background: var(--surface-hover);
+    }
+    .report-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+    .report-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    footer {
+      border-top: 1px solid var(--surface-border);
+      padding: 2rem 0;
+      font-size: 0.825rem;
+      color: var(--text-faint);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    footer a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-bar">
+        <span class="badge badge-verified">✓ 100% Code-Verified Evidence</span>
+        <span class="badge badge-archify">Powered by Archify 3.2.0</span>
+        <span class="badge">Dual-Gate RevOps Architecture</span>
+      </div>
+      <h1>Revenue Lifecycle Orchestration Engine (RLOE)</h1>
+      <p class="subtitle">
+        Interactive Architecture Intelligence Portfolio documenting autonomous inbound intent triage, deduplication cache guard, firmographic pre-filtering, and gated LLM routing across n8n, Supabase PostgreSQL, Clay, Claude 3.5 Sonnet, and HubSpot.
+      </p>
+      <div class="meta-box">
+        <div class="meta-item"><strong>Repository:</strong> <a href="https://github.com/yatinjoshi05/revenue-lifecycle-orchestration-engine" target="_blank" style="color:var(--primary);text-decoration:none;">yatinjoshi05/revenue-lifecycle-orchestration-engine</a></div>
+        <div class="meta-item"><strong>Commit:</strong> <code>1db7457</code></div>
+        <div class="meta-item"><strong>Verification Suite:</strong> <code>Archify 3.2.0 Finalize (All 4 Gates Passing)</code></div>
+        <div class="meta-item"><strong>Dashboard UI:</strong> <a href="../" style="color:var(--primary);text-decoration:none;">Live Operator Dashboard</a></div>
+      </div>
+    </header>
+
+    <main>
+      <h2 class="section-title">Interactive Architecture Diagrams</h2>
+      <p class="section-desc">Each diagram is rendered from verified repository artifacts, fully interactive with pan, zoom, component inspections, and evidence references.</p>
+
+      <div class="diagram-grid">
+        <!-- Master Architecture -->
+        <div class="card">
+          <div class="card-top">
+            <div class="card-header">
+              <h3 class="card-title">Master System Topology</h3>
+              <span class="card-type">architecture</span>
+            </div>
+            <p class="card-desc">
+              High-level structural blueprint covering Operator UI, Webhook Inbound Gate, PLG Usage Poller, n8n Orchestrator, Supabase PostgreSQL with RLS, Clay Waterfall, Claude 3.5 Sonnet, and HubSpot CRM.
+            </p>
+            <ul class="card-facts">
+              <li>Mapped across 4 security and persistence boundaries</li>
+              <li>Dual-gate spend protection: Cache Guard & Deterministic Pre-Filter</li>
+              <li>Audited telemetry emission per execution</li>
+            </ul>
+          </div>
+          <a href="rloe-master.html" class="card-btn">Explore Live Topology →</a>
+        </div>
+
+        <!-- Workflow -->
+        <div class="card">
+          <div class="card-top">
+            <div class="card-header">
+              <h3 class="card-title">Revenue Lifecycle Workflow</h3>
+              <span class="card-type">workflow</span>
+            </div>
+            <p class="card-desc">
+              End-to-end orchestration workflow across Signal Ingress, Cache Guard & Lock, Enrichment & Filter, Claude AI Reasoning, RevOps CRM Action, and Telemetry & Audit lanes.
+            </p>
+            <ul class="card-facts">
+              <li>Verified against 39 nodes in n8n live production workflow</li>
+              <li>Branching logic for cache hit, cache miss, and score thresholds</li>
+              <li>Automatic routing to HubSpot Deals vs Returning Lead Tasks</li>
+            </ul>
+          </div>
+          <a href="rloe-workflow.html" class="card-btn">Explore Live Workflow →</a>
+        </div>
+
+        <!-- Dataflow -->
+        <div class="card">
+          <div class="card-top">
+            <div class="card-header">
+              <h3 class="card-title">Dataflow & Telemetry Pipeline</h3>
+              <span class="card-type">dataflow</span>
+            </div>
+            <p class="card-desc">
+              Five-stage data movement pipeline tracing inbound signals, payload normalization, deduplication cache queries, enrichment, token consumption, and CRM updates.
+            </p>
+            <ul class="card-facts">
+              <li>Grounded in Supabase canonical schema tables and column types</li>
+              <li>Traces exact fields: company_domain, routing_status, token spend</li>
+              <li>Visualizes token spend telemetry flowing into Operator UI</li>
+            </ul>
+          </div>
+          <a href="rloe-dataflow.html" class="card-btn">Explore Live Dataflow →</a>
+        </div>
+
+        <!-- Sequence -->
+        <div class="card">
+          <div class="card-top">
+            <div class="card-header">
+              <h3 class="card-title">Lead Qualification Sequence</h3>
+              <span class="card-type">sequence</span>
+            </div>
+            <p class="card-desc">
+              Chronological execution trace of an inbound lead: Inbound Visitor → n8n Webhook → Supabase Cache Miss → Cache Guard Lock → Clay Callback → Claude LLM Scoring → HubSpot Deal Sync.
+            </p>
+            <ul class="card-facts">
+              <li>Visualizes asynchronous callback and deterministic pre-filter gate</li>
+              <li>Proves race-condition prevention via pending row insertion</li>
+              <li>Shows return of HubSpot deal_id and telemetry log commit</li>
+            </ul>
+          </div>
+          <a href="rloe-sequence.html" class="card-btn">Explore Live Sequence →</a>
+        </div>
+
+        <!-- Lifecycle -->
+        <div class="card">
+          <div class="card-top">
+            <div class="card-header">
+              <h3 class="card-title">Revenue Intent Lifecycle</h3>
+              <span class="card-type">lifecycle</span>
+            </div>
+            <p class="card-desc">
+              Canonical state machine for inbound revenue signals transitioning through Intake, Cache Check, Enriching, Pre-Filter, AI Scoring, and Sales Priority or Disqualified outcomes.
+            </p>
+            <ul class="card-facts">
+              <li>Directly reflects routing_status and route enum states in Supabase</li>
+              <li>Includes failure recovery paths for Claude API timeouts</li>
+              <li>Captures human-in-the-loop review queue escalation</li>
+            </ul>
+          </div>
+          <a href="rloe-lifecycle.html" class="card-btn">Explore Live Lifecycle →</a>
+        </div>
+      </div>
+
+      <div class="reports-section">
+        <h2 class="section-title">Architectural Evidence & Verification Ledgers</h2>
+        <p class="section-desc">Audit documents detailing repository citations, validation results, and deployment verifications.</p>
+        <div class="reports-grid">
+          <a href="EVIDENCE_MANIFEST.md" class="report-link" target="_blank">
+            <div class="report-title">📄 EVIDENCE_MANIFEST.md</div>
+            <div class="report-desc">Full inventory of source file paths, line ranges, schemas, and node IDs backing all 5 diagrams.</div>
+          </a>
+          <a href="VERIFICATION_REPORT.md" class="report-link" target="_blank">
+            <div class="report-title">🔍 VERIFICATION_REPORT.md</div>
+            <div class="report-desc">Automated Archify 3.2.0 test receipts, CLI health check logs, and browser validation proofs.</div>
+          </a>
+          <a href="PORTFOLIO_PROGRESS_REPORT.md" class="report-link" target="_blank">
+            <div class="report-title">🚀 PORTFOLIO_PROGRESS_REPORT.md</div>
+            <div class="report-desc">Deployment status, GitHub Pages URLs, build pipeline integration, and navigation ledger.</div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div>Revenue Lifecycle Orchestration Engine — Architecture Intelligence Suite</div>
+      <div>Generated with <a href="https://github.com/tt-a1i/archify" target="_blank">Archify 3.2.0</a></div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "8222a518-6028-444b-94cf-1f1ef118a5cb",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "D:\\gtm\\.archify\\candidates\\rloe-sequence.candidate.json",
+  "output": "D:\\gtm\\archify\\rloe-sequence.html",
+  "specification": {
+    "sha256": "2e7d54bcc934088b2a2b8b71394da1a661c61fd0522c8e719fe53e67b264380a",
+    "bytes": 5266
+  },
+  "artifact": {
+    "sha256": "4f4a26dd4987875558b879a9e7d9232d1217b2b6829ef4d1bd7a66e9e0790794",
+    "bytes": 840637
+  }
+}

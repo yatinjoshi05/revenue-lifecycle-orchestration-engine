@@ -23,6 +23,7 @@ Thumbs.db
 .agent/
 .agents/
 .uix/
+.archify/
 
 # Scratch & Extraction Artifacts
 *.cjs

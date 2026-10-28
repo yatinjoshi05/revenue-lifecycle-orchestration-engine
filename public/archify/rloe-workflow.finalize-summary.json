@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\gtm\\.archify\\candidates\\rloe-workflow.candidate.json",
+    "sha256": "6e06bf811c7a8dc2b3eca5cab06ea6e0f56f22c6d486c68e82c2dc77f4ec398e",
+    "bytes": 8151
+  },
+  "artifact": {
+    "path": "D:\\gtm\\archify\\rloe-workflow.html",
+    "sha256": "abad5c2f36e33a3cd5f6b7ad0f23e73cfb4384bd915e4f3d5ae59812ddf532c8",
+    "bytes": 860420
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\gtm\\archify\\rloe-workflow.finalize.json",
+    "summaryReceipt": "D:\\gtm\\archify\\rloe-workflow.finalize-summary.json",
+    "browserCheckReceipt": "D:\\gtm\\archify\\rloe-workflow.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-28T07:48:24.353Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 19974,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

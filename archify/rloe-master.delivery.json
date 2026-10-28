@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "479a9f01-f88c-4b4d-8556-03eb80b01422",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\gtm\\.archify\\candidates\\rloe-master.candidate.json",
+  "output": "D:\\gtm\\archify\\rloe-master.html",
+  "specification": {
+    "sha256": "791f63866224ee79c849c2f91998e606c82fa052b52a6d9b4f0905cbe4717c66",
+    "bytes": 8209
+  },
+  "artifact": {
+    "sha256": "ed77952af67c09b7ee6812673d23864fb9c47e21f89bc3f21b3f3fd153e98af8",
+    "bytes": 865215
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d7d30894-dfa9-4d01-a8f7-b9429f22cb6f",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "D:\\gtm\\.archify\\candidates\\rloe-lifecycle.candidate.json",
+  "output": "D:\\gtm\\archify\\rloe-lifecycle.html",
+  "specification": {
+    "sha256": "13b417f0ddd07364acb639f8c0235a77b9d6ac6c477ccc22a545ffa124be95ba",
+    "bytes": 5721
+  },
+  "artifact": {
+    "sha256": "79c8bfe5229018119ddd39fe9c9e3b2baca0695b7b6c49c29aa8a43c1fbe25a7",
+    "bytes": 851209
+  }
+}
